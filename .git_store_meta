@@ -2,9 +2,9 @@
 <file>	<type>	<mtime>
 applicat.c	f	2017-02-03T09:20:46Z
 barchart.c	f	2017-02-03T07:05:50Z
-bin/memopad.exe	f	2018-01-23T05:31:07Z
-bin/memopad.hlp	f	2017-02-03T09:20:46Z
-bin/memopad.map	f	2017-02-03T09:20:46Z
+bin/memopad.exe	f	2025-01-21T19:35:15Z
+bin/memopad.hlp	f	2025-01-21T19:35:15Z
+bin/memopad.map	f	2025-01-21T19:35:15Z
 bin/readme.txt	f	2017-02-03T09:20:46Z
 box.c	f	2017-02-03T07:05:50Z
 button.c	f	2017-02-03T07:05:50Z
@@ -48,7 +48,7 @@ lists.c	f	2018-01-23T05:31:07Z
 log.c	f	2017-02-03T07:05:50Z
 makefile.bcc	f	2017-02-03T07:05:50Z
 makefile.tcc	f	2017-02-03T07:16:14Z
-makefile.wat	f	2025-01-21T18:48:38Z
+makefile.wat	f	2025-01-21T19:35:12Z
 memopad.c	f	2017-02-03T09:20:46Z
 memopad.lnk	f	2017-02-03T07:05:50Z
 memopad.txt	f	2017-02-03T07:05:50Z

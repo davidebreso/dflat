@@ -25,20 +25,20 @@ COMPILE = wcc -bt=dos -os -dWATCOM -d$(FULL) -d$(TESTING) -w4 -s -m$(MODEL)
     $(COMPILE) -fo=$@ $*
 
 memopad.exe : memopad.o dialogs.o menus.o dflat.lib
-     wcl memopad.o dialogs.o menus.o dflat.lib -k8192 -fe=memopad.exe
+     wcl memopad.o dialogs.o menus.o dflat.lib -k8192 -fm -fe=memopad.exe
 
-dflat.lib :   window.o video.o message.o                         &
-              mouse.o console.o textbox.o listbox.o            &
-              normal.o config.o menu.o menubar.o popdown.o   &
-              rect.o applicat.o keys.o sysmenu.o editbox.o   &
-              dialbox.o button.o fileopen.o msgbox.o           &
-              helpbox.o log.o lists.o statbar.o decomp.o     &
-              combobox.o pictbox.o calendar.o barchart.o       &
-              clipbord.o search.o dfalloc.o checkbox.o         &
-              text.o radio.o box.o spinbutt.o  watch.o       &
+dflat.lib :   window.o video.o message.o                    &
+              mouse.o console.o textbox.o listbox.o         &
+              normal.o config.o menu.o menubar.o popdown.o  &
+              rect.o applicat.o keys.o sysmenu.o editbox.o  &
+              dialbox.o button.o fileopen.o msgbox.o        &
+              helpbox.o log.o lists.o statbar.o decomp.o    &
+              combobox.o pictbox.o calendar.o barchart.o    &
+              clipbord.o search.o dfalloc.o checkbox.o      &
+              text.o radio.o box.o spinbutt.o  watch.o      &
               slidebox.o direct.o editor.o
-	rm -f dflat.lib
-	wlib dflat @dflat
+    rm -f dflat.lib
+    wlib dflat @dflat
 
 huffc.exe : huffc.c htree.c htree.h
      wcl -bcl=dos -dWATCOM -ml huffc.c htree.c
@@ -51,9 +51,12 @@ fixhelp.exe : fixhelp.c decomp.c
 # will fail to execute and you will have to do this last step manually in
 # DOS.
 memopad.hlp : memopad.txt huffc.exe fixhelp.exe
-	emu2 huffc.exe memopad.txt memopad.hlp
-	emu2 fixhelp.exe memopad
-	
+    emu2 huffc.exe memopad.txt memopad.hlp
+    emu2 fixhelp.exe memopad
+    
+release: memopad.exe memopad.hlp memopad.map .symbolic
+    cp $< bin/
+    
 clean: .symbolic
     rm -f *.o
     rm -f *.lib

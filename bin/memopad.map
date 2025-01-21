@@ -1,396 +1,897 @@
-File Ofs  Sym Addr  Sym
+Open Watcom Linker Version 2.0 beta Jan  6 2025 00:20:14 (64-bit)
+Copyright (c) 2002-2025 The Open Watcom Contributors. All Rights Reserved.
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       25/01/21 20:32:44
+Executable Image: memopad.exe
+creating a DOS executable
 
-          00000020  section .text:
-00000020  00000020  _main
-00002842  00002842  _PrepFileMenu
-0000293F  0000293F  _PrepSearchMenu
-00002A1A  00002A1A  _PrepEditMenu
-00002CD0  00002CD0  _inportb
-00002CE1  00002CE1  _outportb
-00002CF1  00002CF1  _setvect
-00002D9E  00002D9E  _getvect
-00002E47  00002E47  _callisr
-00002E62  00002E62  _stricmp
-00002F50  00002F50  _movedata
-00002F81  00002F81  _int86
-00003004  00003004  _kbhit
-00003018  00003018  _bioskey
-00003080  00003080  _getdisk
-00003091  00003091  _setdisk
-000030DF  000030DF  _getcwd
-00003203  00003203  _chdir
-000032EA  000032EA  _findfirst
-00003367  00003367  _findnext
-000033C2  000033C2  _fnmerge
-00003687  00003687  _fnsplit
-00003B50  00003B50  _CreateWindow
-000043FF  000043FF  _AddTitle
-0000442D  0000442D  _InsertTitle
-000044AC  000044AC  _writeline
-00004686  00004686  _AdjustRectangle
-0000493D  0000493D  _DisplayTitle
-00005660  00005660  _PaintShadow
-00005799  00005799  _RepaintBorder
-000064A3  000064A3  _ClearWindow
-000067A8  000067A8  _LineLength
-00006838  00006838  _InitWindowColors
-000069BF  000069BF  _PutWindowChar
-00006C70  00006C70  _PutWindowLine
-00007150  00007150  _getvideo
-0000722F  0000722F  _storevideo
-0000730E  0000730E  _GetVideoChar
-00007443  00007443  _PutVideoChar
-0000760F  0000760F  _CharInView
-00007B9C  00007B9C  _wputch
-00007D8B  00007D8B  _wputs
-0000872E  0000872E  _get_videomode
-00008839  00008839  _scroll_window
-00008929  00008929  _movetoscreen
-00008992  00008992  _movefromscreen
-00008CBC  00008CBC  _TestCriticalError
-00008F65  00008F65  _init_messages
-0000A006  0000A006  _PostMessage
-0000A1A9  0000A1A9  _SendMessage
-0000B35A  0000B35A  _handshake
-0000B3A0  0000B3A0  _dispatch_message
-0000B9DC  0000B9DC  _resetmouse
-0000B9F9  0000B9F9  _mouse_installed
-0000BAC1  0000BAC1  _mousebuttons
-0000BB14  0000BB14  _get_mouseposition
-0000BC52  0000BC52  _set_mouseposition
-0000BCBB  0000BCBB  _show_mousecursor
-0000BCE2  0000BCE2  _hide_mousecursor
-0000BD09  0000BD09  _button_releases
-0000BD58  0000BD58  _set_mousetravel
-0000BE00  0000BE00  _clearscreen
-0000BF3E  0000BF3E  _SwapCursorStack
-0000C195  0000C195  _getkey
-0000C1F5  0000C1F5  _getshift
-0000C255  0000C255  _beep
-0000C397  0000C397  _videomode
-0000C4A7  0000C4A7  _cursor
-0000C5E0  0000C5E0  _curr_cursor
-0000C65E  0000C65E  _savecursor
-0000C76B  0000C76B  _restorecursor
-0000C8D3  0000C8D3  _normalcursor
-0000C8EA  0000C8EA  _hidecursor
-0000C96A  0000C96A  _unhidecursor
-0000C9EA  0000C9EA  _set_cursor_type
-0000CA91  0000CA91  _isEGA
-0000CB39  0000CB39  _isVGA
-0000CD8E  0000CD8E  _Set25
-0000CE29  0000CE29  _Set43
-0000CEA0  0000CEA0  _Set50
-0000CF17  0000CF17  _AltConvert
-000100D4  000100D4  _TextBoxProc
-00011A05  00011A05  _WriteTextLine
-00012B5B  00012B5B  _MarkTextBlock
-00012BE8  00012BE8  _ClearTextPointers
-00012C6D  00012C6D  _BuildTextPointers
-00013061  00013061  _TextLineNumber
-00014BC2  00014BC2  _ListBoxProc
-00015A12  00015A12  _ItemSelected
-00018AAC  00018AAC  _NormalProc
-0001AFE5  0001AFE5  _isDerivedFrom
-0001B05F  0001B05F  _GetAncestor
-0001B0EE  0001B0EE  _isVisible
-0001B41E  0001B41E  _isAncestor
-0001B510  0001B510  _BuildFileName
-0001B5A3  0001B5A3  _OpenConfig
-0001B5F1  0001B5F1  _LoadConfig
-0001B745  0001B745  _SaveConfig
-0001B794  0001B794  _SetStandardColor
-0001B80D  0001B80D  _SetReverseColor
-0001B935  0001B935  _GetCommandText
-0001B97E  0001B97E  _isCascadedCommand
-0001B9CF  0001B9CF  _ActivateCommand
-0001BA28  0001BA28  _DeactivateCommand
-0001BA81  0001BA81  _isActive
-0001BADD  0001BADD  _GetCommandToggle
-0001BB39  0001BB39  _SetCommandToggle
-0001BB92  0001BB92  _ClearCommandToggle
-0001BBEB  0001BBEB  _InvertCommandToggle
-0001DC34  0001DC34  _MenuBarProc
-000200BB  000200BB  _PopDownProc
-000203BF  000203BF  _MenuHeight
-00020412  00020412  _MenuWidth
-000206AD  000206AD  _CopyCommand
-00020B63  00020B63  _subRectangle
-00020C63  00020C63  _ClientRect
-00020E97  00020E97  _RelativeWindowRect
-00020F60  00020F60  _ClipRectangle
-0002266B  0002266B  _ApplicationProc
-000230AE  000230AE  _PrepWindowMenu
-00024640  00024640  _SystemMenuProc
-00024A19  00024A19  _BuildSystemMenu
-00025AEB  00025AEB  _SizeMsg
-0002C07C  0002C07C  _EditBoxProc
-0002EB80  0002EB80  _ClearDialogBoxes
-0002FB48  0002FB48  _DialogProc
-0002FF3A  0002FF3A  _DialogBox
-000301D3  000301D3  _FindCommand
-00030286  00030286  _ControlWindow
-00030348  00030348  _WindowControl
-000303B8  000303B8  _ControlSetting
-00030445  00030445  _isControlOn
-000304D2  000304D2  _GetDlgTextString
-00030525  00030525  _SetDlgTextString
-00030759  00030759  _PutItemText
-000309E6  000309E6  _GetItemText
-00030C7F  00030C7F  _GetDlgListText
-00031074  00031074  _SetScrollBars
-00032858  00032858  _SetFocusCursor
-000328B0  000328B0  _PaintMsg
-00032C36  00032C36  _LeftButtonMsg
-00032E2D  00032E2D  _ButtonProc
-00032FD0  00032FD0  _OpenFileDialogBox
-00032FF3  00032FF3  _SaveAsDialogBox
-00033900  00033900  _MessageBoxProc
-00033A39  00033A39  _YesNoBoxProc
-00033B80  00033B80  _ErrorBoxProc
-00033C85  00033C85  _CancelBoxProc
-00033E22  00033E22  _CloseCancelBox
-00033E74  00033E74  _InputBoxProc
-00034225  00034225  _InputBox
-000346AC  000346AC  _GenericMessage
-00034B8C  00034B8C  _MomentaryMessage
-00034CCA  00034CCA  _MsgHeight
-00034DCB  00034DCB  _MsgWidth
-0003590C  0003590C  _HelpBoxProc
-000364B0  000364B0  _HelpTextProc
-000370C8  000370C8  _LoadHelpFile
-00037506  00037506  _UnLoadHelpFile
-000385B8  000385B8  _HelpComment
-00038652  00038652  _DisplayHelp
-000397B0  000397B0  _LogMessages
-00039C0E  00039C0E  _MessageLog
-00039D00  00039D00  _SetNextFocus
-00039F07  00039F07  _SetPrevFocus
-0003A0DD  0003A0DD  _ReFocus
-0003A142  0003A142  _RemoveWindow
-0003A319  0003A319  _AppendWindow
-0003A46A  0003A46A  _SkipApplicationControls
-0003A560  0003A560  _StatusBarProc
-0003A9E0  0003A9E0  _OpenHelpFile
-0003AC46  0003AC46  _GetHelpLine
-0003AEA8  0003AEA8  _HelpFilePosition
-0003AF54  0003AF54  _SeekHelpLine
-0003B090  0003B090  _ComboProc
-0003B447  0003B447  _ListProc
-0003BE74  0003BE74  _PutComboListText
-0003CA6B  0003CA6B  _PictureProc
-0003CCAF  0003CCAF  _DrawVector
-0003CD34  0003CD34  _DrawBox
-0003CD8F  0003CD8F  _DrawBar
-0003DB18  0003DB18  _Calendar
-0003DE09  0003DE09  _BarChart
-0003E140  0003E140  _CopyTextToClipboard
-0003E201  0003E201  _CopyToClipboard
-0003E4C9  0003E4C9  _ClearClipboard
-0003E531  0003E531  _PasteText
-0003F89D  0003F89D  _ReplaceText
-0003F96F  0003F96F  _SearchText
-0003FA41  0003FA41  _SearchNext
-0003FC60  0003FC60  _DFcalloc
-0003FCB0  0003FCB0  _DFmalloc
-0003FCFC  0003FCFC  _DFrealloc
-0003FDF0  0003FDF0  _CheckBoxProc
-00040062  00040062  _CheckBoxSetting
-00040160  00040160  _TextProc
-000404D0  000404D0  _RadioButtonProc
-0004073C  0004073C  _SetRadioButton
-000407AA  000407AA  _PushRadioButton
-00040CAA  00040CAA  _RadioButtonSetting
-00040DB0  00040DB0  _BoxProc
-00040FC0  00040FC0  _SpinButtonProc
-00041410  00041410  _WatchIconProc
-00041A6F  00041A6F  _WatchIcon
-00042441  00042441  _SliderBox
-000427B0  000427B0  _CreatePath
-000430BA  000430BA  _BuildFileList
-000430D6  000430D6  _BuildDirectoryList
-000430F4  000430F4  _BuildDriveList
-0004333B  0004333B  _BuildPathDisplay
-0004376A  0004376A  _CollapseTabs
-00043859  00043859  _ExpandTabs
-00044921  00044921  _EditorProc
-000449F0  000449F0  __start
-00044AE0  00044AE0  ___ArgParser__
-00044EC0  00044EC0  ___DosGetVect
-00044EE3  00044EE3  ___DosSetVect
-00045131  00045131  ___ExcIsr
-000451A2  000451A2  ___CtrlCIsr
-000451FF  000451FF  ___start__
-00045340  00045340  ___x87init
-0004534B  0004534B  ___floatsisf
-0004535E  0004535E  ___floatunsisf
-0004537B  0004537B  ___fixsfsi
-000453A5  000453A5  ___fixunssfsi
-000453CF  000453CF  ___addsf3
-000453E5  000453E5  ___subsf3
-000453FB  000453FB  ___negsf2
-0004540E  0004540E  ___mulsf3
-00045424  00045424  ___divsf3
-0004543A  0004543A  ___lesf2
-00045467  00045467  ___gesf2
-0004556D  0004556D  ___assert
-000455F0  000455F0  _isalpha
-00045630  00045630  _isdigit
-00045670  00045670  _isprint
-000456A0  000456A0  _isupper
-000456E0  000456E0  _tolower
-00045730  00045730  _toupper
-000457C0  000457C0  _open
-0004595C  0004595C  _close
-000459DD  000459DD  _read
-00045AED  00045AED  _write
-00045BF7  00045BF7  _lseek
-00045C77  00045C77  _unlink
-00045CC0  00045CC0  _setjmp
-00045CF7  00045CF7  _longjmp
-00045D30  00045D30  ___FileCloser
-00045D80  00045D80  _fopen
-000464E7  000464E7  _fflush
-00046620  00046620  _remove
-00046640  00046640  _fclose
-000469D0  000469D0  ___fillbuf
-00046F70  00046F70  ___flushbuf
-00047350  00047350  _fread
-000478A9  000478A9  _fgetc
-00047920  00047920  _fgets
-00047A00  00047A00  _fwrite
-00048012  00048012  _fputc
-00048080  00048080  _fputs
-000480F0  000480F0  _ftell
-00048250  00048250  _fseek
-00048730  00048730  _feof
-0004941B  0004941B  ___doprint
-0004A310  0004A310  _fprintf
-0004A340  0004A340  _printf
-0004A380  0004A380  _sprintf
-0004A420  0004A420  ___ExitInner
-0004A58B  0004A58B  __Exit
-0004A5A6  0004A5A6  _exit
-0004A5D0  0004A5D0  _abort
-0004A609  0004A609  _malloc
-0004A660  0004A660  _calloc
-0004A700  0004A700  _free
-0004A73A  0004A73A  _realloc
-0004A955  0004A955  _qsort
-0004AC27  0004AC27  _getenv
-0004B70A  0004B70A  _system
-0004BCA0  0004BCA0  _memcmp
-0004BD60  0004BD60  _memcpy
-0004BDD0  0004BDD0  _memmove
-0004BEB0  0004BEB0  _memset
-0004BF00  0004BF00  _strcat
-0004BF90  0004BF90  _strchr
-0004C010  0004C010  _strcmp
-0004C0E0  0004C0E0  _strcpy
-0004C140  0004C140  _strcspn
-0004C1C0  0004C1C0  _strlen
-0004C210  0004C210  _strncpy
-0004C2C0  0004C2C0  _strpbrk
-0004C340  0004C340  _strrchr
-0004C3D0  0004C3D0  _strtok
-0004C5A0  0004C5A0  ___isleap
-0004C650  0004C650  _clock
-0004C6F0  0004C6F0  ___buildtime
-0004CC90  0004CC90  ___breaktime
-0004D169  0004D169  _time
-0004D2F0  0004D2F0  _localtime
-0004D310  0004D310  _mktime
-0004E4EF  0004E4EF  _strftime
-0004E570  0004E570  _frexpf
-0004E5C1  0004E5C1  _frexp
-0004E5E0  0004E5E0  _ldexpf
-0004E5FA  0004E5FA  _ldexp
-0004E620  0004E620  _modff
-0004E68E  0004E68E  _modf
-0004E759  0004E759  ___cvtdif
-0004ECB6  0004ECB6  ___cvtdff
-          0004F1D9
 
-          0004F1DC  section .relod:
-          0004F1DC  __start__relod
-          00051E50  __stop__relod
-          00051E50
+                        +------------+
+                        |   Groups   |
+                        +------------+
 
-          00051E50  section .relot:
-          00051E50  __start__relot
-          00054AA4  __stop__relot
-          00054AA4
+Group                           Address              Size
+=====                           =======              ====
 
-          00054AA4  section .rodata:
-          00056729
+DGROUP                          1ea3:0000            0000ad40
 
-          0005672C  section .data:
-0005672C  0005672C  _DFlatApplication
-00056764  00056764  _FileOpen
-00056D4C  00056D4C  _SaveAs
-00057334  00057334  _PrintSetup
-0005791C  0005791C  _SearchTextDB
-00057F04  00057F04  _ReplaceTextDB
-000584EC  000584EC  _MsgBox
-00058AD4  00058AD4  _InputBoxDB
-000590BC  000590BC  _SliderBoxDB
-000596A4  000596A4  _Display
-00059C8C  00059C8C  _Windows
-0005A274  0005A274  _Log
-0005A85C  0005A85C  _HelpBox
-0005AE44  0005AE44  _MainMenu
-0005C9C8  0005C9C8  _SystemMenu
-0005E54C  0005E54C  _inFocus
-0005E564  0005E564  _AllocTesting
-0005E568  0005E568  _AltDown
-0005E57C  0005E57C  _time_string
-0005E790  0005E790  _classdefs
-0005E8C4  0005E8C4  _color
-0005E97C  0005E97C  _bw
-0005EA34  0005EA34  _reverse
-0005EAEC  0005EAEC  _cfg
-0005EC34  0005EC34  _keys
-0005EEA8  0005EEA8  _ClassNames
-0005F04C  0005F04C  _CharInWnd
-0005F058  0005F058  _VectCvt
-0005F364  0005F364  ___chartype__
-0005F468  0005F468  ___StreamsHead
-0005F4B8  0005F4B8  ___stdin
-0005F4E4  0005F4E4  ___stdout
-0005F510  0005F510  ___stderr
-0005F568  0005F568  ___DaysSinceJan1st
-          0005F770
 
-          0005F770  section .bss:
-          0005F770  __start__bss
-0005F77C  0005F77C  _foreground
-0005F780  0005F780  _background
-0005F8B0  0005F8B0  _ClipString
-0005F8C8  0005F8C8  _AllocError
-000603EC  000603EC  _CaptureMouse
-000603F0  000603F0  _CaptureKeyboard
-00060410  00060410  _video_mode
-00060414  00060414  _video_page
-000605BC  000605BC  _VSliding
-000605C0  000605C0  _HSliding
-000605D4  000605D4  _WindowMoving
-000605D8  000605D8  _WindowSizing
-000605DC  000605DC  _HiddenWindow
-0006065C  0006065C  _ActiveMenuBar
-0006067C  0006067C  _CurrentMenuSelection
-00060684  00060684  _ApplicationWindow
-000606D4  000606D4  _Argv
-00060720  00060720  _CancelWnd
-00060E48  00060E48  _HelpTree
-00060F34  00060F34  _Clipboard
-00060F38  00060F38  _ClipboardLength
-00061114  00061114  ___Int00DE
-00061118  00061118  ___Int04OF
-0006111C  0006111C  ___Int06UD
-000611B4  000611B4  ___pAtExitIterator
-000611B8  000611B8  ___pFileCloser
-000611BC  000611BC  ___EnvVar
-000611C0  000611C0  ___strtoklast
-          000611F0  __stop__bss
-          000611F0
 
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+memopad_TEXT           CODE           AUTO           0000:0000       0000140c
+dialogs_TEXT           CODE           AUTO           0000:140c       00000000
+menus_TEXT             CODE           AUTO           0000:140c       00000000
+message_TEXT           CODE           AUTO           0000:140c       00000fac
+applicat_TEXT          CODE           AUTO           0000:23b8       00001565
+config_TEXT            CODE           AUTO           0000:391d       000001bf
+console_TEXT           CODE           AUTO           0000:3adc       00000427
+window_TEXT            CODE           AUTO           0000:3f03       00001094
+helpbox_TEXT           CODE           AUTO           0000:4f97       0000166e
+direct_TEXT            CODE           AUTO           0000:6605       000005c4
+_TEXT                  CODE           AUTO           0000:6bd0       0000837a
+normal_TEXT            CODE           AUTO           0ef4:000a       00001f17
+menu_TEXT              CODE           AUTO           0ef4:1f21       0000011c
+dialbox_TEXT           CODE           AUTO           0ef4:203d       0000166b
+msgbox_TEXT            CODE           AUTO           0ef4:36a8       000007a7
+calendar_TEXT          CODE           AUTO           0ef4:3e4f       000004cf
+barchart_TEXT          CODE           AUTO           0ef4:431e       00000217
+fileopen_TEXT          CODE           AUTO           0ef4:4535       00000420
+dfalloc_TEXT           CODE           AUTO           0ef4:4955       00000133
+watch_TEXT             CODE           AUTO           0ef4:4a88       000002d5
+slidebox_TEXT          CODE           AUTO           0ef4:4d5d       0000046e
+combobox_TEXT          CODE           AUTO           0ef4:51cb       000004c8
+clipbord_TEXT          CODE           AUTO           0ef4:5693       000001f8
+mouse_TEXT             CODE           AUTO           0ef4:588b       000001d3
+log_TEXT               CODE           AUTO           0ef4:5a5e       00000243
+rect_TEXT              CODE           AUTO           0ef4:5ca1       000002a2
+radio_TEXT             CODE           AUTO           0ef4:5f43       0000032c
+lists_TEXT             CODE           AUTO           0ef4:626f       00000301
+sysmenu_TEXT           CODE           AUTO           0ef4:6570       0000034b
+popdown_TEXT           CODE           AUTO           0ef4:68bb       00000d85
+checkbox_TEXT          CODE           AUTO           0ef4:7640       00000188
+video_TEXT             CODE           AUTO           0ef4:77c8       000007d8
+decomp_TEXT            CODE           AUTO           0ef4:7fa0       00000250
+textbox_TEXT           CODE           AUTO           0ef4:81f0       00001a4a
+listbox_TEXT           CODE           AUTO           0ef4:9c3a       00000eb3
+editbox_TEXT           CODE           AUTO           0ef4:aaed       00002621
+menubar_TEXT           CODE           AUTO           0ef4:d10e       00000dda
+pictbox_TEXT           CODE           AUTO           0ef4:dee8       00000655
+box_TEXT               CODE           AUTO           0ef4:e53d       00000100
+button_TEXT            CODE           AUTO           0ef4:e63d       0000032b
+text_TEXT              CODE           AUTO           0ef4:e968       0000019c
+spinbutt_TEXT          CODE           AUTO           0ef4:eb04       000001cc
+statbar_TEXT           CODE           AUTO           0ef4:ecd0       000001f6
+editor_TEXT            CODE           AUTO           0ef4:eec6       0000068f
+keys_TEXT              CODE           AUTO           0ef4:f555       00000000
+search_TEXT            CODE           AUTO           0ef4:f555       00000598
+FAR_DATA               FAR_DATA       AUTO           1ea2:000d       00000000
+_NULL                  BEGDATA        DGROUP         1ea3:0000       00000020
+_AFTERNULL             BEGDATA        DGROUP         1ea5:0000       00000002
+CONST                  DATA           DGROUP         1ea5:0002       00001752
+CONST2                 DATA           DGROUP         201a:0004       00000199
+_DATA                  DATA           DGROUP         2033:000e       0000618c
+XIB                    DATA           DGROUP         264c:000a       00000000
+XI                     DATA           DGROUP         264c:000a       00000024
+XIE                    DATA           DGROUP         264e:000e       00000000
+YIB                    DATA           DGROUP         264e:000e       00000000
+YI                     DATA           DGROUP         264e:000e       00000018
+YIE                    DATA           DGROUP         2650:0006       00000000
+DATA                   DATA           DGROUP         2650:0006       00000000
+_BSS                   BSS            DGROUP         2650:0006       00001267
+STACK                  STACK          DGROUP         2777:0000       00002000
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: memopad.o(memopad)
+1ea3:190e      _DFlatApplication
+0000:0000      main_
+0000:11f6      PrepFileMenu_
+0000:127a      PrepSearchMenu_
+0000:12e4      PrepEditMenu_
+Module: dialogs.o(dialogs)
+1ea3:1944      _FileOpen
+1ea3:1cf6      _SaveAs
+1ea3:20a8      _PrintSetup
+1ea3:245a      _SearchTextDB
+1ea3:280c      _ReplaceTextDB
+1ea3:2bbe      _MsgBox
+1ea3:2f70      _InputBoxDB
+1ea3:3322      _SliderBoxDB
+1ea3:36d4      _Display
+1ea3:3a86      _Windows
+1ea3:3e38      _Log
+1ea3:41ea      _HelpBox
+Module: menus.o(menus)
+1ea3:459c      _MainMenu
+1ea3:58fe      _SystemMenu
+Module: dflat.lib(message)
+1ea3:82b8      _CaptureMouse
+1ea3:82bc      _CaptureKeyboard
+1ea3:82c0      _AllocError
+1ea3:6c6a      _AllocTesting
+1ea3:6c6b      _AltDown
+1ea3:6c74      _time_string
+0000:148b      TestCriticalError_
+0000:1577      init_messages_
+0000:19e8      PostMessage_
+0000:1a9c      SendMessage_
+0000:217b      handshake_
+0000:218a      dispatch_message_
+Module: dflat.lib(applicat)
+1ea3:82f4      _ApplicationWindow
+1ea3:82f8      _Argv
+0000:2ca2      ApplicationProc_
+0000:30d0      PrepWindowMenu_
+Module: dflat.lib(config)
+0000:391d      BuildFileName_
+0000:3980+     OpenConfig_
+0000:39b8      LoadConfig_
+0000:3a7b      SaveConfig_
+0000:3ab2      SetStandardColor_
+0000:3ac9      SetReverseColor_
+1ea3:6cd4      _color
+1ea3:6d8c      _bw
+1ea3:6e44      _reverse
+1ea3:6efc      _cfg
+Module: dflat.lib(console)
+0000:3adc*     clearscreen_
+0000:3b40      SwapCursorStack_
+0000:3b7a      getkey_
+0000:3b9c      getshift_
+0000:3bbe      beep_
+0000:3c2c      videomode_
+0000:3c6a      cursor_
+0000:3ca4      curr_cursor_
+0000:3cbe      savecursor_
+0000:3cea      restorecursor_
+0000:3d3e      normalcursor_
+0000:3d41      set_cursor_type_
+0000:3d71      hidecursor_
+0000:3d85      unhidecursor_
+0000:3d92      isEGA_
+0000:3dc6      isVGA_
+0000:3e56      Set25_
+0000:3e75      Set43_
+0000:3ea3      Set50_
+0000:3eb2      AltConvert_
+0000:3ee9      getdisk_
+1ea3:841a      _video_page
+1ea3:841c      _video_mode
+Module: dflat.lib(window)
+0000:3f03      CreateWindow_
+0000:41f2      AddTitle_
+0000:4211+     InsertTitle_
+0000:4251      writeline_
+0000:432a      AdjustRectangle_
+0000:43e7      DisplayTitle_
+0000:478f*     PaintShadow_
+0000:47f2      RepaintBorder_
+0000:4bd7      ClearWindow_
+0000:4d00      LineLength_
+0000:4d46      InitWindowColors_
+0000:4dbb      PutWindowChar_
+0000:4e59      PutWindowLine_
+1ea3:702c      _inFocus
+1ea3:854a      _background
+1ea3:854c      _foreground
+Module: dflat.lib(helpbox)
+0000:5247      HelpBoxProc_
+0000:5576+     HelpTextProc_
+0000:593e      LoadHelpFile_
+0000:5b2c      UnLoadHelpFile_
+0000:6056*     HelpComment_
+0000:6099      DisplayHelp_
+1ea3:7030      _ClassNames
+Module: dflat.lib(direct)
+0000:6605      CreatePath_
+0000:69f1      BuildFileList_
+0000:69fa      BuildDirectoryList_
+0000:6a0b      BuildDriveList_
+0000:6b4b      BuildPathDisplay_
+Module: /opt/watcom/lib286/dos/clibl.lib(strlen)
+0000:6bd0      strlen_
+Module: /opt/watcom/lib286/dos/clibl.lib(finddos)
+0000:6be5      _dos_findfirst_
+0000:6c18      _dos_findnext_
+0000:6c2b*     _dos_findclose_
+Module: /opt/watcom/lib286/dos/clibl.lib(strcpy)
+0000:6c2e      strcpy_
+Module: dflat.lib(normal)
+1ea3:8a36+     _HiddenWindow
+0ef4:1061+     NormalProc_
+0ef4:1d71      isDerivedFrom_
+0ef4:1d99+     GetAncestor_
+0ef4:1dc7      isVisible_
+0ef4:1ef8      isAncestor_
+1ea3:7158      _classdefs
+1ea3:8a40      _WindowSizing
+1ea3:8a41      _WindowMoving
+Module: dflat.lib(menu)
+0ef4:1f6b      GetCommandText_
+0ef4:1f85      isCascadedCommand_
+0ef4:1f9d      ActivateCommand_
+0ef4:1fb1      DeactivateCommand_
+0ef4:1fc5*     isActive_
+0ef4:1fe3      GetCommandToggle_
+0ef4:2001      SetCommandToggle_
+0ef4:2015      ClearCommandToggle_
+0ef4:2029*     InvertCommandToggle_
+Module: dflat.lib(dialbox)
+0ef4:203d      ClearDialogBoxes_
+0ef4:2557      DialogProc_
+0ef4:2754      DialogBox_
+0ef4:28aa      FindCommand_
+0ef4:28db      ControlWindow_
+0ef4:2908+     WindowControl_
+0ef4:2937      ControlSetting_
+0ef4:2975*     isControlOn_
+0ef4:29b2      GetDlgTextString_
+0ef4:29df*     SetDlgTextString_
+0ef4:2aef      PutItemText_
+0ef4:2c84      GetItemText_
+0ef4:2ddc      GetDlgListText_
+0ef4:2f58+     SetScrollBars_
+0ef4:3667      SetFocusCursor_
+Module: dflat.lib(msgbox)
+1ea3:8a48+     _CancelWnd
+0ef4:36a8      MessageBoxProc_
+0ef4:3710      YesNoBoxProc_
+0ef4:379c      ErrorBoxProc_
+0ef4:37e8*     CancelBoxProc_
+0ef4:38a4*     CloseCancelBox_
+0ef4:38c8+     InputBoxProc_
+0ef4:39cc*     InputBox_
+0ef4:3b72      GenericMessage_
+0ef4:3cbe      MomentaryMessage_
+0ef4:3d4c      MsgHeight_
+0ef4:3dbf+     MsgWidth_
+Module: dflat.lib(calendar)
+0ef4:4280      Calendar_
+Module: dflat.lib(barchart)
+0ef4:43a5      BarChart_
+Module: dflat.lib(fileopen)
+0ef4:4535      OpenFileDialogBox_
+0ef4:4546      SaveAsDialogBox_
+Module: /opt/watcom/lib286/dos/clibl.lib(_istricm)
+0000:6c7a      stricmp_
+Module: /opt/watcom/lib286/dos/clibl.lib(strcmp)
+0000:6c7f      strcmp_
+Module: /opt/watcom/lib286/dos/clibl.lib(fopen)
+0000:6ca7+     __open_flags_
+0000:6ea9+     _fsopen_
+0000:6f0d      fopen_
+0000:6fe5*     freopen_
+Module: dflat.lib(dfalloc)
+0ef4:4a1d      DFcalloc_
+0ef4:4a42      DFmalloc_
+0ef4:4a65      DFrealloc_
+Module: /opt/watcom/lib286/dos/clibl.lib(strcat)
+0000:7052      strcat_
+Module: /opt/watcom/lib286/dos/clibl.lib(ffree)
+0000:707d      _ffree_
+0000:707d      free_
+Module: /opt/watcom/lib286/dos/clibl.lib(fclose)
+0000:70c5      __doclose_
+0000:7189      __shutdown_stream_
+0000:71a3      fclose_
+1ea3:8aec+     ___RmTmpFileFn
+Module: dflat.lib(watch)
+0ef4:4a88+     WatchIconProc_
+0ef4:4d0e      WatchIcon_
+Module: /opt/watcom/lib286/dos/clibl.lib(memset)
+0000:71ee      memset_
+Module: /opt/watcom/lib286/dos/clibl.lib(fgets)
+0000:7205      fgets_
+Module: /opt/watcom/lib286/dos/clibl.lib(fputs)
+0000:7294      fputs_
+Module: /opt/watcom/lib286/dos/clibl.lib(fputc)
+0000:7333      fputc_
+Module: dflat.lib(slidebox)
+0ef4:50b1      SliderBox_
+Module: /opt/watcom/lib286/dos/clibl.lib(i4m)
+0000:7408      __I4M
+0000:7408      __U4M
+Module: /opt/watcom/lib286/dos/clibl.lib(i4d)
+0000:7420      __I4D
+0000:746f      __U4D
+Module: /opt/watcom/lib286/dos/clibl.lib(fwrite)
+0000:74f3      fwrite_
+Module: /opt/watcom/lib286/dos/clibl.lib(sprintf)
+0000:76f1      sprintf_
+Module: /opt/watcom/lib286/dos/clibl.lib(remove)
+0000:7712      remove_
+Module: /opt/watcom/lib286/dos/clibl.lib(strrchr)
+0000:7717      strrchr_
+Module: dflat.lib(combobox)
+0ef4:51cb      ComboProc_
+0ef4:5315+     ListProc_
+0ef4:564a      PutComboListText_
+Module: /opt/watcom/lib286/dos/clibl.lib(strchr)
+0000:773d      strchr_
+Module: dflat.lib(clipbord)
+0ef4:5693*     CopyTextToClipboard_
+0ef4:56d1      CopyToClipboard_
+0ef4:575f      ClearClipboard_
+0ef4:5782      PasteText_
+1ea3:8afa      _Clipboard
+1ea3:8afe      _ClipboardLength
+Module: /opt/watcom/lib286/dos/clibl.lib(cstart)
+1ea3:0000*     __nullarea
+1ea3:729e*     __ovlflag
+1ea3:729f*     __intno
+1ea3:72a0*     __ovlvec
+0000:775c      _cstart_
+0000:790d      __exit_
+0000:792a      __do_exit_with_msg_
+0000:7a09      __GETDS
+Module: /opt/watcom/lib286/dos/clibl.lib(cmodel)
+0000:7a14      _big_code_
+0000:7a14*     CodeModelMismatch
+Module: /opt/watcom/lib286/dos/clibl.lib(argcv)
+1ea3:8b00      __argv
+1ea3:8b04      ___argv
+1ea3:8b08      __argc
+1ea3:8b0a      ___argc
+Module: /opt/watcom/lib286/dos/clibl.lib(inp)
+0000:7a14      inp_
+Module: /opt/watcom/lib286/dos/clibl.lib(d_setvec)
+0000:7a1c      _dos_setvect_
+Module: dflat.lib(mouse)
+0ef4:58b0      resetmouse_
+0ef4:58c2      mouse_installed_
+0ef4:58fc      mousebuttons_
+0ef4:5920      get_mouseposition_
+0ef4:5989      set_mouseposition_
+0ef4:59ba      show_mousecursor_
+0ef4:59d4      hide_mousecursor_
+0ef4:59eb      button_releases_
+0ef4:5a0b      set_mousetravel_
+Module: /opt/watcom/lib286/dos/clibl.lib(setjmp)
+0000:7a2a      _setjmp_
+0000:7a7f      longjmp_
+Module: /opt/watcom/lib286/dos/clibl.lib(d_getvec)
+0000:7adc      _dos_getvect_
+Module: /opt/watcom/lib286/dos/clibl.lib(time)
+0000:7ae7      time_
+Module: /opt/watcom/lib286/dos/clibl.lib(localtim)
+0000:7b32+     _localtime_
+0000:7bc1      localtime_
+Module: /opt/watcom/lib286/dos/clibl.lib(kbhit)
+0000:7bd0      kbhit_
+Module: dflat.lib(log)
+0ef4:5a5e      LogMessages_
+0ef4:5c1c      MessageLog_
+Module: dflat.lib(rect)
+0ef4:5d2f      subRectangle_
+0ef4:5daf      ClientRect_
+0ef4:5e3f      RelativeWindowRect_
+0ef4:5e88      ClipRectangle_
+Module: /opt/watcom/lib286/dos/clibl.lib(gtcwd)
+0000:7beb      getcwd_
+Module: dflat.lib(radio)
+0ef4:5f43      RadioButtonProc_
+0ef4:6074      SetRadioButton_
+0ef4:6093      PushRadioButton_
+0ef4:621f      RadioButtonSetting_
+Module: dflat.lib(lists)
+0ef4:626f      SetNextFocus_
+0ef4:632d      SetPrevFocus_
+0ef4:63c9      ReFocus_
+0ef4:63fe      RemoveWindow_
+0ef4:64bb      AppendWindow_
+0ef4:652f      SkipApplicationControls_
+Module: dflat.lib(sysmenu)
+0ef4:6570+     SystemMenuProc_
+0ef4:66ae      BuildSystemMenu_
+Module: dflat.lib(popdown)
+0ef4:7371      PopDownProc_
+0ef4:74c0      MenuHeight_
+0ef4:74f0      MenuWidth_
+0ef4:75d5      CopyCommand_
+1ea3:8b7c      _CurrentMenuSelection
+Module: /opt/watcom/lib286/dos/clibl.lib(toupper)
+0000:7c99      toupper_
+Module: /opt/watcom/lib286/dos/clibl.lib(dosdrive)
+0000:7ca8      _dos_getdrive_
+0000:7cbc      _dos_setdrive_
+Module: /opt/watcom/lib286/dos/clibl.lib(chdir)
+0000:7cd2      chdir_
+Module: /opt/watcom/lib286/dos/clibl.lib(printf)
+0000:7ce1      printf_
+Module: /opt/watcom/lib286/dos/clibl.lib(iob)
+1ea3:73f4      ___iob
+1ea3:8b7e      ___OpenStreams
+1ea3:8b82      ___ClosedStreams
+Module: /opt/watcom/lib286/dos/clibl.lib(fflush)
+0000:7d02      fflush_
+Module: /opt/watcom/lib286/dos/clibl.lib(getenv)
+0000:7d17      getenv_
+Module: /opt/watcom/lib286/dos/clibl.lib(spl)
+0000:7de6      spawnl_
+Module: /opt/watcom/lib286/dos/clibl.lib(strncpy)
+0000:7e11      strncpy_
+Module: dflat.lib(checkbox)
+0ef4:7640      CheckBoxProc_
+0ef4:7778      CheckBoxSetting_
+Module: dflat.lib(video)
+0ef4:77c8      getvideo_
+0ef4:7840      storevideo_
+0ef4:78a8      GetVideoChar_
+0ef4:7906      PutVideoChar_
+0ef4:79b5      CharInView_
+0ef4:7b51      wputch_
+0ef4:7bed      wputs_
+0ef4:7eaa      get_videomode_
+0ef4:7eeb      scroll_window_
+0ef4:7f54+     movetoscreen_
+0ef4:7f75+     movefromscreen_
+1ea3:8b89      _ClipString
+Module: /opt/watcom/lib286/dos/clibl.lib(memcpy)
+0000:7e4d      memcpy_
+Module: /opt/watcom/lib286/dos/clibl.lib(fread)
+0000:7e6f      fread_
+Module: /opt/watcom/lib286/dos/clibl.lib(fseek)
+0000:80d0      fseek_
+Module: /opt/watcom/lib286/dos/clibl.lib(intx086)
+0000:8238+     int86x_
+0000:82d9      int86_
+Module: /opt/watcom/lib286/dos/clibl.lib(bioskeyb)
+0000:8306      _bios_keybrd_
+Module: /opt/watcom/lib286/dos/clibl.lib(outp)
+0000:830b      outp_
+Module: dflat.lib(decomp)
+1ea3:8b8e      _HelpTree
+0ef4:7fa0      OpenHelpFile_
+0ef4:80c5      GetHelpLine_
+0ef4:8154*     HelpFilePosition_
+0ef4:8189      SeekHelpLine_
+Module: /opt/watcom/lib286/dos/clibl.lib(memmove)
+0000:8315      memmove_
+Module: /opt/watcom/lib286/dos/clibl.lib(tolower)
+0000:838b      tolower_
+Module: /opt/watcom/lib286/dos/clibl.lib(splitpat)
+0000:83f1      _splitpath_
+Module: /opt/watcom/lib286/dos/clibl.lib(makepath)
+0000:850b      _makepath_
+Module: /opt/watcom/lib286/dos/clibl.lib(qsort)
+0000:87d1      qsort_
+Module: /opt/watcom/lib286/dos/clibl.lib(doserror)
+0000:8d42      __doserror_
+0000:8d50      __doserror1_
+Module: dflat.lib(textbox)
+0ef4:8f93      TextBoxProc_
+0ef4:95a4      WriteTextLine_
+0ef4:9a96*     MarkTextBlock_
+0ef4:9ab3+     ClearTextPointers_
+0ef4:9ae4      BuildTextPointers_
+0ef4:9bef      TextLineNumber_
+1ea3:8b98+     _HSliding
+1ea3:8b99      _VSliding
+Module: dflat.lib(listbox)
+0ef4:a519      ListBoxProc_
+0ef4:aa04      ItemSelected_
+Module: dflat.lib(editbox)
+0ef4:ae63+     SizeMsg_
+0ef4:c93f      EditBoxProc_
+Module: dflat.lib(menubar)
+1ea3:8bf2      _ActiveMenuBar
+0ef4:dc4f      MenuBarProc_
+Module: dflat.lib(pictbox)
+0ef4:e386      PictureProc_
+0ef4:e491      DrawVector_
+0ef4:e4cc      DrawBox_
+0ef4:e4fd      DrawBar_
+1ea3:7566+     _CharInWnd
+1ea3:7572+     _VectCvt
+Module: dflat.lib(box)
+0ef4:e53d      BoxProc_
+Module: dflat.lib(button)
+0ef4:e63d+     PaintMsg_
+0ef4:e7b1+     LeftButtonMsg_
+0ef4:e888      ButtonProc_
+Module: dflat.lib(text)
+0ef4:e968      TextProc_
+Module: dflat.lib(spinbutt)
+0ef4:eb04      SpinButtonProc_
+Module: dflat.lib(statbar)
+0ef4:ecd0      StatusBarProc_
+Module: dflat.lib(editor)
+0ef4:ef94*     CollapseTabs_
+0ef4:efda*     ExpandTabs_
+0ef4:f4e6      EditorProc_
+Module: /opt/watcom/lib286/dos/clibl.lib(strftime)
+0000:8df4      strftime_
+Module: /opt/watcom/lib286/dos/clibl.lib(mktime)
+0000:9327      mktime_
+Module: /opt/watcom/lib286/dos/clibl.lib(stricmp)
+0000:93e1      _stricmp_
+Module: /opt/watcom/lib286/dos/clibl.lib(comtflag)
+0000:941e*     __set_commode_
+1ea3:7682      __commode
+Module: /opt/watcom/lib286/dos/clibl.lib(errno)
+0000:942a      __get_errno_ptr_
+1ea3:8c04+     _errno
+Module: /opt/watcom/lib286/dos/clibl.lib(textmode)
+1ea3:7684      __fmode
+Module: /opt/watcom/lib286/dos/clibl.lib(open)
+0000:962d*     open_
+0000:9654      _sopen_
+Module: /opt/watcom/lib286/dos/clibl.lib(chktty)
+0000:9673      __chktty_
+Module: /opt/watcom/lib286/dos/clibl.lib(freefp)
+0000:969e      __freefp_
+0000:9713      __purgefp_
+Module: /opt/watcom/lib286/dos/clibl.lib(allocfp)
+0000:974f      __allocfp_
+Module: /opt/watcom/lib286/dos/clibl.lib(calloc)
+0000:9865      calloc_
+Module: /opt/watcom/lib286/dos/clibl.lib(fmalloc)
+0000:98a4      _fmalloc_
+0000:98a4      malloc_
+1ea3:7686+     ___fheapbeg
+1ea3:7688      ___fheapRover
+1ea3:768a      ___LargestSizeB4Rover
+Module: /opt/watcom/lib286/dos/clibl.lib(frealloc)
+0000:99b4*     _frealloc_
+0000:99b4      realloc_
+Module: /opt/watcom/lib286/dos/clibl.lib(nmalloc)
+0000:9a8c      _nmalloc_
+1ea3:768c      ___nheapbeg
+1ea3:768e      ___MiniHeapRover
+1ea3:7690      ___LargestSizeB4MiniHeapRover
+Module: /opt/watcom/lib286/dos/clibl.lib(mem)
+0000:9b70      __MemAllocator
+0000:9c36      __MemFree
+Module: /opt/watcom/lib286/dos/clibl.lib(nfree)
+0000:9dad      _nfree_
+1ea3:8c06+     ___MiniHeapFreeRover
+Module: /opt/watcom/lib286/dos/clibl.lib(__lseek)
+0000:9eaa      __lseek_
+Module: /opt/watcom/lib286/dos/clibl.lib(_clse)
+0000:9ee4      __close_
+Module: /opt/watcom/lib286/dos/clibl.lib(flush)
+0000:9f1c      __flush_
+Module: /opt/watcom/lib286/dos/clibl.lib(fgetc)
+0000:a054      __fill_buffer_
+0000:a149      fgetc_
+Module: /opt/watcom/lib286/dos/clibl.lib(ioalloc)
+0000:a1f3      __ioalloc_
+Module: /opt/watcom/lib286/dos/clibl.lib(qwrit)
+0000:a28d      __qwrite_
+Module: /opt/watcom/lib286/dos/clibl.lib(vsprintf)
+0000:a308      vsprintf_
+Module: /opt/watcom/lib286/dos/clibl.lib(unlnk)
+0000:a333      unlink_
+Module: /opt/watcom/lib286/dos/clibl.lib(xmsg)
+0000:a342*     __exit_with_msg_
+0000:a347      __fatal_runtime_error_
+Module: /opt/watcom/lib286/dos/clibl.lib(cmain086)
+0000:a361      __CMain
+Module: /opt/watcom/lib286/dos/clibl.lib(initrtns)
+0000:a3b3      __InitRtns
+0000:a3b3*     __FInitRtns
+0000:a40a      __FiniRtns
+0000:a40a*     __FFiniRtns
+Module: /opt/watcom/lib286/dos/clibl.lib(crwdata)
+1ea3:7692      __curbrk
+1ea3:769a      __STACKLOW
+1ea3:769c      __STACKTOP
+1ea3:769e      __cbyte
+1ea3:76a0      __child
+1ea3:76a2      __no87
+1ea3:76af      ___FPE_handler
+1ea3:7694      __psp
+1ea3:76a3      __get_ovl_stack
+1ea3:76a7      __restore_ovl_stack
+1ea3:76ab      __close_ovl_file
+1ea3:76b3      __LpCmdLine
+1ea3:76b7      __LpPgmName
+1ea3:7696      __osmajor
+1ea3:7697      __osminor
+1ea3:7698      __osmode
+1ea3:7699      __HShift
+Module: /opt/watcom/lib286/dos/clibl.lib(uselfn)
+1ea3:76bc      ___uselfn
+Module: /opt/watcom/lib286/dos/clibl.lib(dosseg)
+0000:a46a      __DOSseg__
+Module: /opt/watcom/lib286/dos/clibl.lib(initargv)
+0000:a666      __Init_Argv_
+0000:a6c8      __Fini_Argv_
+Module: /opt/watcom/lib286/dos/clibl.lib(ljmphdl)
+1ea3:76be      ___longjmp_handler
+Module: /opt/watcom/lib286/dos/clibl.lib(gtctm)
+0000:a6f3      __getctime_
+Module: /opt/watcom/lib286/dos/clibl.lib(tzset)
+1ea3:76c2      ___start_dst
+1ea3:76d4      ___end_dst
+1ea3:77e8      _tzname
+1ea3:77f0      _timezone
+1ea3:77f4      _daylight
+1ea3:77f6      ___dst_adjust
+0000:a77f*     __DontCacheOSTZ_
+0000:a798*     __CacheOSTZ_
+0000:acf4+     __parse_tz_
+0000:ae40      tzset_
+Module: /opt/watcom/lib286/dos/clibl.lib(gmtime)
+0000:aeb3      __brktime_
+0000:b016+     _gmtime_
+0000:b03a*     gmtime_
+Module: /opt/watcom/lib286/dos/clibl.lib(timeutil)
+0000:b17b      __isindst_
+Module: /opt/watcom/lib286/dos/clibl.lib(fprintf)
+0000:b46e      fprintf_
+Module: /opt/watcom/lib286/dos/clibl.lib(_getdcwd)
+0000:b48f      __getdcwd_
+Module: dflat.lib(keys)
+1ea3:781e      _keys
+Module: /opt/watcom/lib286/dos/clibl.lib(fprtf)
+0000:b4c0      __fprtf_
+Module: /opt/watcom/lib286/dos/clibl.lib(initfile)
+0000:b58b      __InitFiles_
+Module: /opt/watcom/lib286/dos/clibl.lib(ioexit)
+0000:b6e6*     fcloseall_
+0000:b6ed      __full_io_exit_
+Module: /opt/watcom/lib286/dos/clibl.lib(flushall)
+0000:b6f7      __flushall_
+0000:b754      flushall_
+Module: /opt/watcom/lib286/dos/clibl.lib(environ)
+1ea3:8c1e      ___env_mask
+1ea3:8c22      _environ
+1ea3:8c26      __wenviron
+Module: /opt/watcom/lib286/dos/clibl.lib(mbterm)
+0000:b759      _mbterm_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsnextc)
+0000:b79b      _mbsnextc_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbcupper)
+0000:b7cc      _mbctoupper_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsinc)
+0000:b7ef      _mbsinc_
+Module: /opt/watcom/lib286/dos/clibl.lib(spve)
+0000:b890      spawnve_
+Module: /opt/watcom/lib286/dos/clibl.lib(movedata)
+0000:bd39      movedata_
+Module: /opt/watcom/lib286/dos/clibl.lib(qread)
+0000:bd59      __qread_
+Module: /opt/watcom/lib286/dos/clibl.lib(lseek)
+0000:bd79      lseek_
+Module: /opt/watcom/lib286/dos/clibl.lib(tell)
+0000:bdaa      _tell_
+Module: /opt/watcom/lib286/dos/clibl.lib(dointr)
+0000:bdbc      _DoINTR_
+Module: /opt/watcom/lib286/dos/clibl.lib(segread)
+0000:c131      segread_
+Module: /opt/watcom/lib286/dos/clibl.lib(biosfunc)
+0000:c152*     __ibm_bios_equiplist_
+0000:c155      __ibm_bios_keybrd_
+0000:c16a*     __ibm_bios_memsize_
+0000:c16d*     __ibm_bios_printer_
+0000:c178*     __ibm_bios_serialcom_
+Module: /opt/watcom/lib286/dos/clibl.lib(ftell)
+0000:c17f      ftell_
+Module: /opt/watcom/lib286/dos/clibl.lib(assert99)
+0000:c1db      _assert99_
+0000:c378*     __assert99_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsnccnt)
+0000:c3ad      _mbsnccnt_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsncpy)
+0000:c3e1      _mbsncpy_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsnbcnt)
+0000:c417      _mbsnbcnt_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbconv)
+0000:c490      _mbvtop_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbclen)
+0000:c4a5      _mbclen_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsdec)
+0000:c4d3      _mbsdec_
+Module: /opt/watcom/lib286/dos/clibl.lib(dosret)
+0000:c560      __set_errno_dos_
+0000:c5ec*     __set_errno_dos_reterr_
+Module: /opt/watcom/lib286/dos/clibl.lib(istable)
+1ea3:180c      __IsTable
+Module: dflat.lib(search)
+0ef4:fa29      ReplaceText_
+0ef4:fa94      SearchText_
+0ef4:fae4      SearchNext_
+Module: /opt/watcom/lib286/dos/clibl.lib(itoa)
+0000:c5f7+     utoa_
+0000:c654      itoa_
+Module: /opt/watcom/lib286/dos/clibl.lib(leapyear)
+0000:c678      ___diyr
+0000:c692      ___dilyr
+0000:c6ac      __leapyear_
+Module: /opt/watcom/lib286/dos/clibl.lib(locmktim)
+0000:c6d6      __local_mktime_
+Module: /opt/watcom/lib286/dos/clibl.lib(opendos)
+0000:c89b      _dos_open_
+Module: /opt/watcom/lib286/dos/clibl.lib(iomode)
+0000:c8c1      __GetIOMode_
+0000:c8e6      __SetIOMode_nogrow_
+1ea3:7a06      ___NFiles
+1ea3:7a08      ___init_mode
+1ea3:7a30      ___io_mode
+Module: /opt/watcom/lib286/dos/clibl.lib(isatt)
+0000:c909      isatty_
+Module: /opt/watcom/lib286/dos/clibl.lib(doserrno)
+0000:c925      __get_doserrno_ptr_
+1ea3:8c2c+     __doserrno
+Module: /opt/watcom/lib286/dos/clibl.lib(umaskval)
+1ea3:7a34      ___umaskval
+Module: /opt/watcom/lib286/dos/clibl.lib(creatdos)
+0000:c92c      _dos_creat_
+0000:c950*     _dos_creatnew_
+Module: /opt/watcom/lib286/dos/clibl.lib(stiomode)
+0000:c971+     __grow_iomode_
+0000:ca37+     __shrink_iomode_
+0000:ca72      __SetIOMode_
+Module: /opt/watcom/lib286/dos/clibl.lib(growseg)
+0000:cad5      __GrowSeg_
+Module: /opt/watcom/lib286/dos/clibl.lib(allocseg)
+0000:cba4      __AllocSeg_
+Module: /opt/watcom/lib286/dos/clibl.lib(fmemneed)
+0000:cc43      __fmemneed_
+Module: /opt/watcom/lib286/dos/clibl.lib(heapgrow)
+0000:cc46*     _heapgrow_
+0000:cc46*     _fheapgrow_
+0000:cc47      _nheapgrow_
+Module: /opt/watcom/lib286/dos/clibl.lib(fmsize)
+0000:ccbe*     _msize_
+0000:ccbe      _fmsize_
+Module: /opt/watcom/lib286/dos/clibl.lib(nexpand)
+0000:cccf      _nexpand_
+Module: /opt/watcom/lib286/dos/clibl.lib(fexpand)
+0000:cd1f      _fexpand_
+0000:cd1f*     _expand_
+Module: /opt/watcom/lib286/dos/clibl.lib(nmemneed)
+0000:cd54      __nmemneed_
+Module: /opt/watcom/lib286/dos/clibl.lib(grownear)
+0000:cdd6      __LastFree_
+0000:ce4e      __ExpandDGROUP_
+Module: /opt/watcom/lib286/dos/clibl.lib(fsync)
+0000:cf53      fsync_
+Module: /opt/watcom/lib286/dos/clibl.lib(gtche)
+0000:cf58      getche_
+Module: /opt/watcom/lib286/dos/clibl.lib(prtf)
+0000:dac5      __prtf_
+Module: /opt/watcom/lib286/dos/clibl.lib(enterdb)
+0000:dcfd      __EnterWVIDEO_
+1ea3:7a36      __WD_Present
+Module: /opt/watcom/lib286/dos/clibl.lib(___argc)
+1ea3:8c30      ____Argv
+1ea3:8c34      ____Argc
+Module: /opt/watcom/lib286/dos/clibl.lib(exit)
+0000:dd21+     __null_int23_exit_
+0000:dd22      exit_
+0000:dd51*     _exit_
+1ea3:7a38+     ___int23_exit
+1ea3:7a3c+     ___FPE_handler_exit
+Module: /opt/watcom/lib286/dos/clibl.lib(sgdef086)
+1ea3:7a9a      __Start_XI
+1ea3:7abe      __End_XI
+1ea3:7abe      __Start_YI
+1ea3:7ad6      __End_YI
+Module: /opt/watcom/lib286/dos/clibl.lib(histsplt)
+1ea3:8c36      ___historical_splitparms
+Module: /opt/watcom/lib286/dos/clibl.lib(setenvp)
+0000:dd88      __setenvp_
+0000:de8d      __freeenvp_
+Module: /opt/watcom/lib286/dos/clibl.lib(mbisdbcs)
+1ea3:7a40      ___IsDBCS
+Module: /opt/watcom/lib286/dos/clibl.lib(mbislead)
+0000:df11*     _ismbblead_
+1ea3:8c3c      ___MBCSIsTable
+Module: /opt/watcom/lib286/dos/clibl.lib(mbinit)
+0000:df92      __mbinit_
+1ea3:7a42      ___MBCodePage
+Module: /opt/watcom/lib286/dos/clibl.lib(mbdtoupp)
+0000:e007      _mbdtoupper_
+Module: /opt/watcom/lib286/dos/clibl.lib(cenvarg)
+0000:e02f      __cenvarg_
+0000:e24e      __ccmdline_
+Module: /opt/watcom/lib286/dos/clibl.lib(dospawn)
+0000:e2df      ___dospawn
+Module: /opt/watcom/lib286/dos/clibl.lib(stk)
+0000:e3cd      __STK
+0000:e3ed*     __STKOVERFLOW_
+Module: /opt/watcom/lib286/dos/clibl.lib(execaddr)
+0000:e40a      __execaddr_
+1ea3:7a7e+     ___Exec_addr
+Module: /opt/watcom/lib286/dos/clibl.lib(stack086)
+0000:e417      stackavail_
+Module: /opt/watcom/lib286/dos/clibl.lib(split2)
+0000:e4a5      _splitpath2_
+Module: /opt/watcom/lib286/dos/clibl.lib(save8087)
+1ea3:7a82      ___Save8087
+1ea3:7a86      ___Rest8087
+Module: /opt/watcom/lib286/dos/clibl.lib(dosmem)
+0000:e658      _dos_allocmem_
+0000:e67a      _dos_freemem_
+0000:e688*     _dos_setblock_
+Module: /opt/watcom/lib286/dos/clibl.lib(fmemcpy)
+0000:e6a4      _fmemcpy_
+Module: /opt/watcom/lib286/dos/clibl.lib(_slashc)
+0000:e6c9      __Slash_C_
+Module: /opt/watcom/lib286/dos/clibl.lib(_snprint)
+0000:e71e+     _vsnprintf_
+0000:e783      _snprintf_
+Module: /opt/watcom/lib286/dos/clibl.lib(rterrmsg)
+0000:e7a4      __rterr_msg_
+Module: /opt/watcom/lib286/dos/clibl.lib(abort)
+0000:e7d7      abort_
+0000:e7ef*     __terminate_
+1ea3:7a8a+     ___abort
+Module: /opt/watcom/lib286/dos/clibl.lib(mbsnbcpy)
+0000:e7fd      _mbsnbcpy_
+Module: /opt/watcom/lib286/dos/clibl.lib(alphabet)
+0000:e875      ___Alphabet
+Module: /opt/watcom/lib286/dos/clibl.lib(iomodtty)
+0000:e89a      __ChkTTYIOMode_
+0000:e8d8*     __IOMode_
+Module: /opt/watcom/lib286/dos/clibl.lib(heapen)
+0000:e8e8*     _heapenable_
+1ea3:7a8e      ___heap_enabled
+Module: /opt/watcom/lib286/dos/clibl.lib(amblksiz)
+1ea3:7a90      __amblksiz
+Module: /opt/watcom/lib286/dos/clibl.lib(_expand)
+0000:e8f9      __HeapManager_expand_
+Module: /opt/watcom/lib286/dos/clibl.lib(bexpand)
+0000:ea79      _bexpand_
+Module: /opt/watcom/lib286/dos/clibl.lib(sbrk)
+0000:ead2      __brk_
+0000:eb37*     sbrk_
+Module: /opt/watcom/lib286/dos/clibl.lib(filedos)
+0000:eb47*     _dos_close_
+0000:eb55      _dos_commit_
+Module: /opt/watcom/lib286/dos/clibl.lib(wctomb)
+0000:eb64      wctomb_
+Module: /opt/watcom/lib286/dos/clibl.lib(noefgfmt)
+1ea3:7a92      ___EFG_printf
+1ea3:7a96*     ___EFG_scanf
+Module: /opt/watcom/lib286/dos/clibl.lib(lltoa)
+0000:eb9d      ulltoa_
+0000:ec81*     lltoa_
+Module: /opt/watcom/lib286/dos/clibl.lib(strupr)
+0000:ece3      _strupr_
+Module: /opt/watcom/lib286/dos/clibl.lib(ltoa)
+0000:ed05      ultoa_
+0000:ed74*     ltoa_
+Module: /opt/watcom/lib286/dos/clibl.lib(clearenv)
+0000:eda3      clearenv_
+Module: /opt/watcom/lib286/dos/clibl.lib(getltdos)
+0000:eeec      dos_get_dbcs_lead_table_
+Module: /opt/watcom/lib286/dos/clibl.lib(getcpdos)
+0000:ef15      dos_get_code_page_
+Module: /opt/watcom/lib286/dos/clibl.lib(bfree)
+0000:ef25      _bfree_
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+dflat.lib
+/opt/watcom/lib286/dos/clibl.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  2000 (8192.)
+Memory size:  00029770 (169840.)
+Entry point address: 0000:775c
+Link time: 00:00.81
