@@ -1,6 +1,7 @@
 /* ------------------- huffc.c -------------------- */
 
-#include "dflat.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "htree.h"
 
 extern struct htree *ht;
@@ -32,20 +33,20 @@ void main(int argc, char *argv[])
     BYTECOUNTER bytectr = 0;
 
     if (argc < 3)   {
-        printf("\nusage: huffc infile outfile");
+        printf("\nusage: huffc infile outfile\n");
         exit(1);
     }
 
     if ((fi = fopen(argv[1], "rb")) == NULL)    {
-        printf("\nCannot open %s", argv[1]);
+        printf("\nCannot open %s\n", argv[1]);
         exit(1);
     }
     if ((fo = fopen(argv[2], "wb")) == NULL)    {
-        printf("\nCannot open %s", argv[2]);
+        printf("\nCannot open %s\n", argv[2]);
         fclose(fi);
         exit(1);
     }
-
+    
     ht = calloc(256, sizeof(struct htree));
 
     /* - read the input file and count character frequency - */

@@ -7,8 +7,11 @@
  */
 
 #include <assert.h>
-#include "dflat.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "htree.h"
+
+void BuildFileName(char *path, const char *fn, const char *ext);
 
 static int in8;
 static int ct8 = 8;
@@ -52,7 +55,7 @@ void *GetHelpLine(char *line)
 {
     int h;
     *line = '\0';
-    while (TRUE)    {
+    while (1)    {
         /* ----- decompress a line from the file ------ */
         h = root;
         /* ----- walk the Huffman tree ----- */

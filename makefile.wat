@@ -3,7 +3,6 @@
 #-------------------------------------------------------------------
 
 all : memopad.exe memopad.hlp
-	echo all done
 
 #-------------------------------------------------------------------
 #  Delete the FULL macro for a minimal D-Flat application. You can
@@ -19,37 +18,46 @@ TESTING = TESTING_DFLAT
 #-------------------------------------------------------------------
 MODEL = l
 #------------------------------------------------
-COMPILE = wcl /os /c /dWATCOM /d$(FULL) /d$(TESTING) /j /c /w4 /s /m$(MODEL)
+COMPILE = wcc -bt=dos -os -dWATCOM -d$(FULL) -d$(TESTING) -w4 -s -m$(MODEL)
 #------------------------------------------------
 
-.c.obj:
-    $(COMPILE) $*
+.c.o:
+    $(COMPILE) -fo=$@ $*
 
-memopad.exe : memopad.obj dialogs.obj menus.obj dflat.lib
-     wcl memopad.obj dialogs.obj menus.obj dflat.lib /k8192 /fe=memopad.exe
+memopad.exe : memopad.o dialogs.o menus.o dflat.lib
+     wcl memopad.o dialogs.o menus.o dflat.lib -k8192 -fe=memopad.exe
 
-dflat.lib :   window.obj video.obj message.obj                         &
-              mouse.obj console.obj textbox.obj listbox.obj            &
-              normal.obj config.obj menu.obj menubar.obj popdown.obj   &
-              rect.obj applicat.obj keys.obj sysmenu.obj editbox.obj   &
-              dialbox.obj button.obj fileopen.obj msgbox.obj           &
-              helpbox.obj log.obj lists.obj statbar.obj decomp.obj     &
-              combobox.obj pictbox.obj calendar.obj barchart.obj       &
-              clipbord.obj search.obj dfalloc.obj checkbox.obj         &
-              text.obj radio.obj box.obj spinbutt.obj  watch.obj       &
-              slidebox.obj direct.obj editor.obj
-	del dflat.lib
+dflat.lib :   window.o video.o message.o                         &
+              mouse.o console.o textbox.o listbox.o            &
+              normal.o config.o menu.o menubar.o popdown.o   &
+              rect.o applicat.o keys.o sysmenu.o editbox.o   &
+              dialbox.o button.o fileopen.o msgbox.o           &
+              helpbox.o log.o lists.o statbar.o decomp.o     &
+              combobox.o pictbox.o calendar.o barchart.o       &
+              clipbord.o search.o dfalloc.o checkbox.o         &
+              text.o radio.o box.o spinbutt.o  watch.o       &
+              slidebox.o direct.o editor.o
+	rm -f dflat.lib
 	wlib dflat @dflat
 
-huffc.exe : huffc.c htree.c
-     wcl /dWATCOM /ml huffc.c htree.c
+huffc.exe : huffc.c htree.c htree.h
+     wcl -bcl=dos -dWATCOM -ml huffc.c htree.c
 
 fixhelp.exe : fixhelp.c decomp.c
-     wcl /dWATCOM /ml fixhelp.c decomp.c
+     wcl -bcl=dos -dWATCOM -ml fixhelp.c decomp.c
+
 
 # Note that if you're compiling in 64-bit Windows, huffc.exe and fixhelp.exe
 # will fail to execute and you will have to do this last step manually in
 # DOS.
 memopad.hlp : memopad.txt huffc.exe fixhelp.exe
-	huffc memopad.txt memopad.hlp
-	fixhelp memopad
+	emu2 huffc.exe memopad.txt memopad.hlp
+	emu2 fixhelp.exe memopad
+	
+clean: .symbolic
+    rm -f *.o
+    rm -f *.lib
+    rm -f *.err
+    rm -f *.hlp
+    rm -f *.exe
+
