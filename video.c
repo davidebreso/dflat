@@ -233,7 +233,7 @@ void get_videomode(void)
     else	{
         /* ------ Text mode -------- */
         video_address = 0xb800 + video_page;
-		if (!isEGA() && !isVGA())
+		if (isCGA())
 			/* -------- CGA --------- */
 			snowy = cfg.snowy;
 	}

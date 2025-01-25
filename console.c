@@ -112,10 +112,7 @@ void videomode(void)
         mov video_page, bx
         and ax, 0x7f
         mov video_mode, ax
-    }
-    video_card = CGAMDA_VIDEO;
     /* test for VGA */
-    asm {
         mov ax, 0x1a00
         int VIDEO
         cmp al, 0x1a
@@ -132,12 +129,20 @@ testEGA:
         mov bl, 0x10
         int VIDEO
         cmp bl, 0x10
-        je testDone
+        je testMDA
         mov video_card, EGA_VIDEO
+        jmp testDone
+    }
+testMDA:
+    /* test for MDA/CGA */
+    if (video_mode == 7) {
+        video_card = MDA_VIDEO;
+    } else {
+        video_card = CGA_VIDEO;
     }
 testDone:
     SCREENWIDTH = (peekb(0x40,0x4a) & 255);
-    SCREENHEIGHT = (video_card > CGAMDA_VIDEO ? peekb(0x40,0x84)+1 : 25);
+    SCREENHEIGHT = (video_card > MDA_VIDEO ? peekb(0x40,0x84)+1 : 25);
 }
 
 /* ------ position the cursor ------ */

@@ -27,9 +27,10 @@
 #define COUNT (1193280L / FREQUENCY)
 #define ZEROFLAG 0x40
 #define MAXSAVES 50
-#define CGAMDA_VIDEO 0
-#define EGA_VIDEO 1
-#define VGA_VIDEO 2
+#define CGA_VIDEO 0
+#define MDA_VIDEO 1
+#define EGA_VIDEO 2
+#define VGA_VIDEO 3
 extern unsigned char SCREENWIDTH;
 extern unsigned char SCREENHEIGHT;
 #define clearBIOSbuffer() *(unsigned short far *)(MK_FP(0x40,0x1a)) = \
@@ -92,7 +93,8 @@ void set_mousetravel(int, int, int, int);
 /* ----------- video adaptor prototypes ----------- */
 #define isEGA() (video_card == EGA_VIDEO)
 #define isVGA() (video_card == VGA_VIDEO)
-#define isCGAMDA() (video_card == CGAMDA_VIDEO)
+#define isCGAMDA() (video_card < EGA_VIDEO)
+#define isCGA() (video_card == CGA_VIDEO)
 void Set25(void);
 void Set43(void);
 void Set50(void);

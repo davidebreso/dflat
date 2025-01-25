@@ -86,7 +86,7 @@ static int CreateWindowMsg(WINDOW wnd)
 	        	for (i = 0; i < 6; i++)
     	        	*ct1++ = *ct++;
 		}
-    	if (isVGA() || isEGA())    {
+    	if (!isCGA())    {
 			/* ------ eliminate the snowy check box ----- */
 	       	ct = FindCommand(&Display, ID_SNOWY, CHECKBOX);
 			if (ct != NULL)
@@ -660,7 +660,7 @@ static void SelectColors(WINDOW wnd)
 static void SelectLines(WINDOW wnd)
 {
     cfg.ScreenLines = 25;
-    if (isEGA() || isVGA())    {
+    if (!isCGAMDA())    {
         if (RadioButtonSetting(&Display, ID_43LINES))
             cfg.ScreenLines = 43;
         else if (RadioButtonSetting(&Display, ID_50LINES))
@@ -688,7 +688,7 @@ static void SelectLines(WINDOW wnd)
 /* ---- set the screen height in the video hardware ---- */
 static void SetScreenHeight(int height)
 {
-    if (isEGA() || isVGA())    {
+    if (!isCGAMDA())    {
         SendMessage(NULL, SAVE_CURSOR, 0, 0);
         switch (height)    {
             case 25:
