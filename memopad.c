@@ -61,6 +61,7 @@ void main(int argc, char *argv[])
     while (dispatch_message())
         ;
 }
+
 /* ------ open text files and put them into editboxes ----- */
 static void PadWindow(WINDOW wnd, char *FileName)
 {
@@ -119,7 +120,7 @@ static int MemoPadProc(WINDOW wnd,MESSAGE msg,PARAM p1,PARAM p2)
                 case ID_PRINT:
                     PrintPad(inFocus);
                     return TRUE;
-				case ID_EXIT:	
+				case ID_EXIT:
 					if (!YesNoBox("Exit Memopad?"))
 						return FALSE;
 					break;
@@ -138,7 +139,7 @@ static int MemoPadProc(WINDOW wnd,MESSAGE msg,PARAM p1,PARAM p2)
 					FixTabMenu();
                     return TRUE;
 				case ID_TAB6:
-					cfg.Tabs = 6;					
+					cfg.Tabs = 6;
 					FixTabMenu();
                     return TRUE;
 				case ID_TAB8:
@@ -409,7 +410,7 @@ static int EditorProc(WINDOW wnd,MESSAGE msg,PARAM p1,PARAM p2)
             rtn = DefaultWndProc(wnd, msg, p1, p2);
             if ((int)p1 == FALSE)
                 SendMessage(GetParent(wnd), ADDSTATUS, 0, 0);
-            else 
+            else
                 ShowPosition(wnd);
             return rtn;
         case KEYBOARD_CURSOR:

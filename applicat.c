@@ -3,6 +3,7 @@
 #include "dflat.h"
 
 static int ScreenHeight;
+static unsigned VideoMode;
 static BOOL DisplayModified = FALSE;
 WINDOW ApplicationWindow;
 
@@ -61,6 +62,7 @@ static int CreateWindowMsg(WINDOW wnd)
     int rtn;
 	ApplicationWindow = wnd;
     ScreenHeight = SCREENHEIGHT;
+    VideoMode = video_mode;
 	getcwd(Cwd, 64);
     if (!DisplayModified)    {
        	int i;
@@ -146,7 +148,7 @@ static void AddStatusMsg(WINDOW wnd, PARAM p1)
     if (wnd->StatusBar != NULL)    {
         if (p1 && *(char *)p1)
             SendMessage(wnd->StatusBar, SETTEXT, p1, 0);
-        else 
+        else
             SendMessage(wnd->StatusBar, CLEARTEXT, 0, 0);
         SendMessage(wnd->StatusBar, PAINT, 0, 0);
     }
@@ -161,7 +163,7 @@ static void SetFocusMsg(WINDOW wnd, BOOL p1)
 	SendMessage(NULL, HIDE_CURSOR, 0, 0);
 	if (isVisible(wnd))
 	    SendMessage(wnd, BORDER, 0, 0);
-	else 
+	else
 	    SendMessage(wnd, SHOW_WINDOW, 0, 0);
 }
 
@@ -258,7 +260,7 @@ static void CommandMsg(WINDOW wnd, PARAM p1, PARAM p2)
             if (DialogBox(wnd, &Display, TRUE, NULL))    {
 				if (inFocus == wnd->MenuBarWnd || inFocus == wnd->StatusBar)
 					oldFocus = ApplicationWindow;
-				else 
+				else
 					oldFocus = inFocus;
                 SendMessage(wnd, HIDE_WINDOW, 0, 0);
                 SelectColors(wnd);
@@ -394,7 +396,7 @@ static void ShellDOS(WINDOW wnd)
     if (ScreenHeight != SCREENHEIGHT)
         SetScreenHeight(ScreenHeight);
     SendMessage(NULL, HIDE_MOUSE, 0, 0);
-    printf("To return to %s, execute the DOS exit command.",
+    printf("To return to %s, execute the DOS exit command.\n",
                     DFlatApplication);
     fflush(stdout);
 #ifdef __SMALLER_C__
@@ -402,6 +404,7 @@ static void ShellDOS(WINDOW wnd)
 #else
     spawnl(P_WAIT, getenv("COMSPEC"), NULL);
 #endif
+    SetVideoMode(VideoMode);
     if (SCREENHEIGHT != cfg.ScreenLines)
         SetScreenHeight(cfg.ScreenLines);
     SwitchCursor();
@@ -461,7 +464,7 @@ static char *WindowName(WINDOW wnd)
     if (GetTitle(wnd) == NULL)    {
         if (GetClass(wnd) == DIALOG)
             return ((DBOX *)(wnd->extension))->HelpName;
-        else 
+        else
             return "Untitled";
     }
     else
@@ -640,7 +643,7 @@ static void SelectColors(WINDOW wnd)
     else
         cfg.mono = 0;
     cfg.snowy = CheckBoxSetting(&Display, ID_SNOWY);
-	get_videomode();
+	// get_videomode();
     if ((ismono() || video_mode == 2) && cfg.mono == 0)
         cfg.mono = 1;
 

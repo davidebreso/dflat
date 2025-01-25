@@ -20,7 +20,7 @@ WINDOW CreateWindow(
     int attrib)               /* window attribute           */
 {
     WINDOW wnd = DFcalloc(1, sizeof(struct window));
-    get_videomode();
+    // get_videomode();
     if (wnd != NULL)    {
         int base;
         /* ----- height, width = -1: fill the screen ------- */

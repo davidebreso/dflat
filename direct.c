@@ -138,7 +138,6 @@ void BuildDriveList(WINDOW wnd)
 {
     CTLWINDOW *ct = FindCommand(wnd->extension, ID_DRIVE,LISTBOX);
     if (ct != NULL)    {
-	    union REGS regs;
 	    char drname[15];
 	    unsigned int cd, dr;
 	    WINDOW lwnd = ct->wnd;
@@ -152,23 +151,37 @@ void BuildDriveList(WINDOW wnd)
         	if (ndr == dr)    {
             	/* ----- test for remapped B drive ----- */
             	if (dr == 1)    {
-                	regs.x.ax = 0x440e; /* IOCTL func 14 */
-                	regs.h.bl = dr+1;
-                	int86(DOS, &regs, &regs);
-                	if (regs.h.al != 0)
+                    asm {
+                        mov ax, 0x440e      /* IOCTL func 14 */
+                	    mov bl, byte ptr dr
+                        inc bl
+                        int DOS
+                        xor ah, ah
+                        mov ndr, ax
+                    }
+                	if (ndr != 0)
                     	continue;
             	}
 
             	sprintf(drname, "%c:", dr+'A');
 
             	/* ---- test for network or RAM disk ---- */
-            	regs.x.ax = 0x4409;     /* IOCTL func 9 */
-            	regs.h.bl = dr+1;
-            	int86(DOS, &regs, &regs);
-            	if (!regs.x.cflag)    {
-                	if (regs.x.dx & 0x1000)
+                asm {
+            	    mov ax, 0x4409      /* IOCTL func 9 */
+            	    mov bl, byte ptr dr
+                    inc bl
+                    int DOS
+                    jnc saveAttributes
+                    xor dx, dx
+                }
+                saveAttributes:
+                asm {
+                    mov ndr, dx
+                }
+            	if (!ndr)    {
+                	if (ndr & 0x1000)
                     	strcat(drname, " (Net)");
-                	else if (regs.x.dx == 0x0800)
+                	else if (ndr == 0x0800)
                     	strcat(drname, " (RAM)");
             	}
             	SendMessage(lwnd,ADDTEXT,(PARAM)drname,0);

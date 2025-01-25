@@ -2,21 +2,15 @@
 
 #include "dflat.h"
 
-static union REGS regs;
-/*
-static struct SREGS sregs;
-*/
-
 static void near mouse(int m1,int m2,int m3,int m4)
 {
-    regs.x.dx = m4;
-    regs.x.cx = m3;
-    regs.x.bx = m2;
-    regs.x.ax = m1;
-/*
-    int86x(MOUSE, &regs, &regs, &sregs);
-*/
-    int86(MOUSE, &regs, &regs);
+    asm {
+        mov dx, m4
+        mov cx, m3
+        mov bx, m2
+        mov ax, m1
+        int MOUSE
+   }
 }
 
 /* ---------- reset the mouse ---------- */
@@ -39,29 +33,51 @@ BOOL mouse_installed(void)
 /* ------ return true if mouse buttons are pressed ------- */
 int mousebuttons(void)
 {
-    if (mouse_installed())	{
+    if (!mouse_installed())
+        return 0;
 /*
 		segread(&sregs);
-*/
         mouse(3,0,0,0);
-	    return regs.x.bx & 3;
+*/
+    asm {
+        mov ax, 3
+        xor bx, bx
+        xor cx, cx
+        xor dx, dx
+        int MOUSE
+        xchg ax, bx
+        and ax, 3       /* return regs.x.bx & 3 */
 	}
-	return 0;
 }
 
 /* ---------- return mouse coordinates ---------- */
 void get_mouseposition(int *x, int *y)
 {
 	*x = *y = -1;
-    if (mouse_installed())    {
+    if (mouse_installed()) {
 /*
 		segread(&sregs);
-*/
         mouse(3,0,0,0);
-        *x = regs.x.cx/8;
-        *y = regs.x.dx/8;
-		if (SCREENWIDTH == 40)
-			*x /= 2;
+*/
+        asm {
+            mov ax, 3
+            xor bx, bx
+            xor cx, cx
+            xor dx, dx
+            int MOUSE
+            shr cx, 1
+            shr cx, 1
+            shr cx, 1
+            mov bx, word ptr x
+            mov word ptr [bx], cx
+            shr dx, 1
+            shr dx, 1
+            shr dx, 1
+            mov bx, word ptr y
+            mov word ptr [bx], dx
+        }
+        if (SCREENWIDTH == 40)
+    	    *x /= 2;
     }
 }
 
@@ -103,14 +119,20 @@ void hide_mousecursor(void)
 /* --- return true if a mouse button has been released --- */
 int button_releases(void)
 {
-    if (mouse_installed())	{
+    if (!mouse_installed())
+        return 0;
 /*
 		segread(&sregs);
-*/
         mouse(6,0,0,0);
-	    return regs.x.bx;
+*/
+    asm {
+        mov ax, 6
+        xor bx, bx
+        xor cx, cx
+        xor dx, dx
+        int MOUSE
+        xchg ax, bx     /* return regs.x.bx; */
 	}
-	return 0;
 }
 
 /* ----- set mouse travel limits ------- */

@@ -2,6 +2,18 @@
 
 #include "dflat.h"
 
+/* ----- cursor position and shape ------ */
+struct curpos_t {
+    unsigned shape;
+    union {
+        unsigned xy;
+        struct {
+            unsigned char x;
+            unsigned char y;
+        } cp;
+    } pos;
+};
+
 /* ----- table of alt keys for finding shortcut keys ----- */
 static int altconvert[] = {
     ALT_A,ALT_B,ALT_C,ALT_D,ALT_E,ALT_F,ALT_G,ALT_H,
@@ -13,31 +25,20 @@ static int altconvert[] = {
 
 unsigned video_mode;
 unsigned video_page;
+unsigned video_card;
+
+unsigned char SCREENWIDTH;
+unsigned char SCREENHEIGHT;
 
 static int near cursorpos[MAXSAVES];
 static int near cursorshape[MAXSAVES];
-static int cs;
-
-static union REGS regs;
-
-/* ------------- clear the screen -------------- */
-void clearscreen(void)
-{
-	int ht = SCREENHEIGHT;
-	int wd = SCREENWIDTH;
-	cursor(0, 0);
-	regs.h.al = ' ';
-	regs.h.ah = 9;
-	regs.x.bx = 7;
-	regs.x.cx = ht * wd;
-	int86(VIDEO, &regs, &regs);
-}
+static int csp;
 
 void SwapCursorStack(void)
 {
-	if (cs > 1)	{
-		swap(cursorpos[cs-2], cursorpos[cs-1]);
-		swap(cursorshape[cs-2], cursorshape[cs-1]);
+	if (csp > 1)	{
+		swap(cursorpos[csp-2], cursorpos[csp-1]);
+		swap(cursorshape[csp-2], cursorshape[csp-1]);
 	}
 }
 
@@ -73,9 +74,11 @@ int getkey(void)
 /* ---------- read the keyboard shift status --------- */
 int getshift(void)
 {
-    regs.h.ah = 2;
-    int86(KEYBRD, &regs, &regs);
-    return regs.h.al;
+    asm {
+        mov ah, 2
+        int KEYBRD
+        xor ah, ah
+    }
 }
 
 static volatile int far *clk = MK_FP(0x40,0x6c);
@@ -102,63 +105,104 @@ void beep(void)
 /* -------- get the video mode and page from BIOS -------- */
 void videomode(void)
 {
-    regs.h.ah = 15;
-    int86(VIDEO, &regs, &regs);
-    video_mode = regs.h.al;
-    video_page = regs.x.bx;
-    video_page &= 0xff00;
-    video_mode &= 0x7f;
+    asm {
+        mov ah, 0x0f
+        int VIDEO
+        and bx, 0xff00
+        mov video_page, bx
+        and ax, 0x7f
+        mov video_mode, ax
+    }
+    video_card = CGAMDA_VIDEO;
+    /* test for VGA */
+    asm {
+        mov ax, 0x1a00
+        int VIDEO
+        cmp al, 0x1a
+        jne testEGA
+        cmp bl, 6
+        jna testEGA
+        mov video_card, VGA_VIDEO
+        jmp testDone
+    }
+testEGA:
+    asm {
+        /* test for EGA */
+        mov ah, 0x12
+        mov bl, 0x10
+        int VIDEO
+        cmp bl, 0x10
+        je testDone
+        mov video_card, EGA_VIDEO
+    }
+testDone:
+    SCREENWIDTH = (peekb(0x40,0x4a) & 255);
+    SCREENHEIGHT = (video_card > CGAMDA_VIDEO ? peekb(0x40,0x84)+1 : 25);
 }
 
 /* ------ position the cursor ------ */
 void cursor(int x, int y)
 {
-    videomode();
-    regs.x.dx = ((y << 8) & 0xff00) + x;
-    regs.h.ah = SETCURSOR;
-    regs.x.bx = video_page;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ah, SETCURSOR
+        mov dl, byte ptr x
+        mov dh, byte ptr y
+        mov bx, video_page
+        int VIDEO
+    }
 }
 
 /* ------ get cursor shape and position ------ */
-static void near getcursor(void)
+static struct curpos_t near getcursor(void)
 {
-    videomode();
-    regs.h.ah = READCURSOR;
-    regs.x.bx = video_page;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ah, READCURSOR
+        mov bx, video_page
+        int VIDEO
+        xchg ax, cx
+    }
+    /* Return value:
+     *   cursor position in dh, dl
+     *   cursor shape in ax
+     */
 }
 
 /* ------- get the current cursor position ------- */
 void curr_cursor(int *x, int *y)
 {
-    getcursor();
-    *x = regs.h.dl;
-    *y = regs.h.dh;
+    struct curpos_t c;
+    c = getcursor();
+    *x = c.pos.cp.x;
+    *y = c.pos.cp.y;
 }
 
 /* ------ save the current cursor configuration ------ */
 void savecursor(void)
 {
-    if (cs < MAXSAVES)    {
-        getcursor();
-        cursorshape[cs] = regs.x.cx;
-        cursorpos[cs] = regs.x.dx;
-        cs++;
+    if (csp < MAXSAVES)    {
+        struct curpos_t c;
+        c = getcursor();
+        cursorshape[csp] = c.shape;
+        cursorpos[csp] = c.pos.xy;
+        csp++;
     }
 }
 
 /* ---- restore the saved cursor configuration ---- */
 void restorecursor(void)
 {
-    if (cs)    {
-        --cs;
-        videomode();
-        regs.x.dx = cursorpos[cs];
-        regs.h.ah = SETCURSOR;
-        regs.x.bx = video_page;
-        int86(VIDEO, &regs, &regs);
-        set_cursor_type(cursorshape[cs]);
+    if (csp)    {
+        --csp;
+        asm {
+            lea si, cursorpos       /* SI = base address of array */
+            mov bx, csp             /* BX = array index */
+            shl bx, 1               /*   converted to byte count */
+            mov dx, [si + bx]       /* DX = cursorpos[csp] */
+            mov ah, SETCURSOR
+            mov bx, video_page
+            int VIDEO
+        }
+        set_cursor_type(cursorshape[csp]);
     }
 }
 
@@ -171,70 +215,55 @@ void normalcursor(void)
 /* ------ hide the cursor ------ */
 void hidecursor(void)
 {
-    getcursor();
-    regs.h.ch |= HIDECURSOR;
-    regs.h.ah = SETCURSORTYPE;
-    int86(VIDEO, &regs, &regs);
+    struct curpos_t c;
+    c = getcursor();
+    set_cursor_type(c.shape | HIDECURSOR);
 }
 
 /* ------ unhide the cursor ------ */
 void unhidecursor(void)
 {
-    getcursor();
-    regs.h.ch &= ~HIDECURSOR;
-    regs.h.ah = SETCURSORTYPE;
-    int86(VIDEO, &regs, &regs);
+    struct curpos_t c;
+
+    c = getcursor();
+    set_cursor_type(c.shape & ~HIDECURSOR);
 }
 
 /* ---- use BIOS to set the cursor type ---- */
 void set_cursor_type(unsigned t)
 {
-    videomode();
-    regs.h.ah = SETCURSORTYPE;
-    regs.x.bx = video_page;
-    regs.x.cx = t;
-    int86(VIDEO, &regs, &regs);
-}
-
-/* ---- test for EGA -------- */
-BOOL isEGA(void)
-{
-    if (isVGA())
-        return FALSE;
-    regs.h.ah = 0x12;
-    regs.h.bl = 0x10;
-    int86(VIDEO, &regs, &regs);
-    return regs.h.bl != 0x10;
-}
-
-/* ---- test for VGA -------- */
-BOOL isVGA(void)
-{
-    regs.x.ax = 0x1a00;
-    int86(VIDEO, &regs, &regs);
-    return regs.h.al == 0x1a && regs.h.bl > 6;
+    asm {
+        mov ah, SETCURSORTYPE
+        mov bx, video_page
+        mov cx, t
+        int VIDEO
+    }
 }
 
 static void Scan350(void)
 {
-    regs.x.ax = 0x1201;
-    regs.h.bl = 0x30;
-    int86(VIDEO, &regs, &regs);
-	regs.h.ah = 0x0f;
-    int86(VIDEO, &regs, &regs);
-	regs.h.ah = 0x00;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ax, 0x1201
+        mov bl, 0x30
+        int VIDEO
+	    mov ah, 0x0f
+        int VIDEO
+	    xor ah, ah
+        int VIDEO
+    }
 }
 
 static void Scan400(void)
 {
-    regs.x.ax = 0x1202;
-    regs.h.bl = 0x30;
-    int86(VIDEO, &regs, &regs);
-	regs.h.ah = 0x0f;
-    int86(VIDEO, &regs, &regs);
-	regs.h.ah = 0x00;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ax, 0x1202
+        mov bl, 0x30
+        int VIDEO
+	    mov ah, 0x0f
+        int VIDEO
+	    xor ah, ah
+        int VIDEO
+    }
 }
 
 /* ---------- set 25 line mode ------- */
@@ -242,12 +271,19 @@ void Set25(void)
 {
     if (isVGA())	{
         Scan400();
-		regs.x.ax = 0x1114;
-	}
-	else
-		regs.x.ax = 0x1111;
-    regs.h.bl = 0;
-    int86(VIDEO, &regs, &regs);
+        asm {
+            mov ax, 0x1114
+            xor bl, bl
+            int VIDEO
+       }
+	} else {
+        asm {
+            mov ax, 0x1111
+            xor bl, bl
+            int VIDEO
+       }
+    }
+    SCREENHEIGHT = 25;
 }
 
 /* ---------- set 43 line mode ------- */
@@ -255,9 +291,12 @@ void Set43(void)
 {
     if (isVGA())
         Scan350();
-    regs.x.ax = 0x1112;
-    regs.h.bl = 0;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ax, 0x1112
+        xor bl, bl
+        int VIDEO
+    }
+    SCREENHEIGHT = 43;
 }
 
 /* ---------- set 50 line mode ------- */
@@ -265,9 +304,12 @@ void Set50(void)
 {
     if (isVGA())
         Scan400();
-    regs.x.ax = 0x1112;
-    regs.h.bl = 0;
-    int86(VIDEO, &regs, &regs);
+    asm {
+        mov ax, 0x1112
+        xor bl, bl
+        int VIDEO
+    }
+    SCREENHEIGHT = 50;
 }
 
 /* ------ convert an Alt+ key to its letter equivalent ----- */

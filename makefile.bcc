@@ -32,7 +32,7 @@ LINKDEBUG = /m /v
 # NOTE: Temporary file space. Change to match
 #       your computer. A RAM disk works best.
 #------------------------------------------------
-HEADERS=e:\temp\tcdef.sym
+HEADERS=f:\tcdef.sym
 #------------------------------------------------
 COMPILE = bcc $(DEBUG) -D$(TESTING) -D$(FULL) -DBCPP -c -d -m$(MODEL) -H=$(HEADERS)
 LINK= tlink $(LINKDEBUG) $(DRIVE)\lib\c0$(MODEL)

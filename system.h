@@ -27,8 +27,11 @@
 #define COUNT (1193280L / FREQUENCY)
 #define ZEROFLAG 0x40
 #define MAXSAVES 50
-#define SCREENWIDTH  (peekb(0x40,0x4a) & 255)
-#define SCREENHEIGHT (isVGA() || isEGA() ? peekb(0x40,0x84)+1 : 25)
+#define CGAMDA_VIDEO 0
+#define EGA_VIDEO 1
+#define VGA_VIDEO 2
+extern unsigned char SCREENWIDTH;
+extern unsigned char SCREENHEIGHT;
 #define clearBIOSbuffer() *(unsigned short far *)(MK_FP(0x40,0x1a)) = \
 		        	      *(unsigned short far *)(MK_FP(0x40,0x1c));
 #define waitforkeyboard() while ((keyportvalue & 0x80) == 0) \
@@ -42,7 +45,7 @@
 #define READCURSOR    3
 #define READATTRCHAR  8
 #define WRITEATTRCHAR 9
-#define HIDECURSOR 0x20
+#define HIDECURSOR 0x2000
 /* ------- the interrupt function registers -------- */
 typedef struct {
     int bp,di,si,ds,es,dx,cx,bx,ax,ip,cs,fl;
@@ -87,8 +90,9 @@ void set_mousetravel(int, int, int, int);
 #define countdown(timer)         --timer
 #define timer_disabled(timer)     (timer == -1)
 /* ----------- video adaptor prototypes ----------- */
-BOOL isEGA(void);
-BOOL isVGA(void);
+#define isEGA() (video_card == EGA_VIDEO)
+#define isVGA() (video_card == VGA_VIDEO)
+#define isCGAMDA() (video_card == CGAMDA_VIDEO)
 void Set25(void);
 void Set43(void);
 void Set50(void);

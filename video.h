@@ -9,10 +9,12 @@ void getvideo(RECT, void far *);
 void storevideo(RECT, void far *);
 extern unsigned video_mode;
 extern unsigned video_page;
+extern unsigned video_card;
 void wputch(WINDOW, int, int, int);
 unsigned int GetVideoChar(int, int);
 void PutVideoChar(int, int, int);
 void get_videomode(void);
+void SetVideoMode(unsigned);
 void wputs(WINDOW, void *, int, int);
 void scroll_window(WINDOW, RECT, int);
 

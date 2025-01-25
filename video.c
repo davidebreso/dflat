@@ -110,6 +110,25 @@ BOOL CharInView(WINDOW wnd, int x, int y)
     return (x1 < SCREENWIDTH && y1 < SCREENHEIGHT);
 }
 
+/* ------------- clear the screen -------------- */
+void clearscreen(void)
+{
+	int count = SCREENHEIGHT * SCREENWIDTH;
+
+    asm {
+        push es
+        push di
+        mov es, video_address
+        xor di, di
+        mov cx, count
+        mov ax, 0x0720
+        rep stosw
+        pop di
+        pop es
+    }
+}
+
+
 /* -------- write a character to a window ------- */
 void wputch(WINDOW wnd, int c, int x, int y)
 {
@@ -155,7 +174,7 @@ void wputs(WINDOW wnd, void *s, int x, int y)
             }
 			if (*str == ('\t' | 0x80) || *str == ('\f' | 0x80))
 	   	        *cp1 = ' ' | (clr(foreground, background) << 8);
-			else 
+			else
 	   	        *cp1 = (*str & 255) | (clr(foreground, background) << 8);
 			if (ClipString)
 				if (!CharInView(wnd, x, y))
@@ -220,6 +239,17 @@ void get_videomode(void)
 	}
 }
 
+/* --------- set video mode ---------- */
+void SetVideoMode(unsigned mode)
+{
+    asm {
+        mov ah, 0
+        mov al, byte ptr mode
+        int VIDEO
+   }
+   get_videomode();
+}
+
 /* --------- scroll the window. d: 1 = up, 0 = dn ---------- */
 void scroll_window(WINDOW wnd, RECT rc, int d)
 {
@@ -233,7 +263,13 @@ void scroll_window(WINDOW wnd, RECT rc, int d)
 		regs.h.ah = 7 - d;
 		regs.h.al = 1;
     	hide_mousecursor();
-    	int86(VIDEO, &regs, &regs);
+        asm {
+            mov ax, word ptr regs.x.ax
+            mov bx, word ptr regs.x.bx
+            mov cx, word ptr regs.x.cx
+            mov dx, word ptr regs.x.dx
+            int VIDEO
+        }
     	show_mousecursor();
 	}
 }

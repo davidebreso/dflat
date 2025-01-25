@@ -271,7 +271,7 @@ static void SetFocusMsg(WINDOW wnd, PARAM p1)
 		}
 		else if (!isVisible(wnd))
 	        SendMessage(wnd, SHOW_WINDOW, 0, 0);
-		else 
+		else
 		    SendMessage(wnd, BORDER, 0, 0);
     }
     else if (!p1 && inFocus == wnd)    {
@@ -830,7 +830,7 @@ static RECT adjShadow(WINDOW wnd)
     rc = wnd->rc;
     if (TestAttribute(wnd, SHADOW))    {
         if (RectRight(rc) < SCREENWIDTH-1)
-            RectRight(rc)++;           
+            RectRight(rc)++;
         if (RectBottom(rc) < SCREENHEIGHT-1)
             RectBottom(rc)++;
     }
@@ -1083,7 +1083,7 @@ static void GetVideoBuffer(WINDOW wnd)
     ht = RectBottom(rc) - RectTop(rc) + 1;
     wd = RectRight(rc) - RectLeft(rc) + 1;
     wnd->videosave = DFrealloc(wnd->videosave, (ht * wd * 2));
-    get_videomode();
+    // get_videomode();
     getvideo(rc, wnd->videosave);
 }
 
@@ -1093,7 +1093,7 @@ static void PutVideoBuffer(WINDOW wnd)
     if (wnd->videosave != NULL)    {
     	RECT rc;
     	rc = ClipRect(wnd);
-    	get_videomode();
+    	// get_videomode();
     	storevideo(rc, wnd->videosave);
     	free(wnd->videosave);
     	wnd->videosave = NULL;

@@ -33,7 +33,7 @@
 #include <setjmp.h>
 
 #ifndef VERSION
-#define VERSION "Version 20"
+#define VERSION "Version 21"
 #endif
 
 extern char **Argv;

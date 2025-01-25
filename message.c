@@ -128,7 +128,7 @@ static void StopMsg(void)
     }
 	ClearClipboard();
 	ClearDialogBoxes();
-	restorecursor();	
+	restorecursor();
 	unhidecursor();
     hide_mousecursor();
 }
@@ -141,6 +141,7 @@ BOOL init_messages(void)
 		StopMsg();
 		return FALSE;
 	}
+    get_videomode();
     resetmouse();
 	set_mousetravel(0, SCREENWIDTH-1, 0, SCREENHEIGHT-1);
 	savecursor();
@@ -461,7 +462,7 @@ int SendMessage(WINDOW wnd, MESSAGE msg, PARAM p1, PARAM p2)
         			rc.rt = SCREENWIDTH-1;
         			rc.bt = SCREENHEIGHT-1;
 				}
-				else 
+				else
 					rc = *(RECT *)p1;
 				set_mousetravel(rc.lf, rc.rt, rc.tp, rc.bt);
 				break;
@@ -592,7 +593,7 @@ BOOL dispatch_message(void)
     /* --------- dequeue and process events -------- */
     while (EventQueueCtr > 0)  {
         struct events ev;
-			
+
 		ev = EventQueue[EventQueueOffCtr];
         if (++EventQueueOffCtr == MAXMESSAGES)
             EventQueueOffCtr = 0;
