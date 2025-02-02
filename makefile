@@ -1,12 +1,12 @@
 #-------------------------------------------------------------------
-#        D - F L A T   M A K E F I L E  -  Borland C++ 3.1 and 4.0
+#        D - F A S T   M A K E F I L E  -  Borland C++ 2.0
 #-------------------------------------------------------------------
 
-all : memopad.exe memopad.hlp
+all : demo.exe
 
-#------------------------------------------------
+#-------------------------------------------------------------------
 # NOTE: Set DRIVE to match where you installed your compiler
-#------------------------------------------------
+#-------------------------------------------------------------------
 DRIVE = d:\bcc
 #-------------------------------------------------------------------
 #  Delete the TESTING macro to eliminate the Reload
@@ -22,19 +22,21 @@ FULL = BUILD_FULL_DFLAT
 #-------------------------------------------------------------------
 
 MODEL = l
-#------------------------------------------------
-# NOTE: Delete the DEBUG and LINKDEBUG macros to
+#-------------------------------------------------------------------
+# NOTE: Delete the DEBUG, ASMDEBUG, and LINKDEBUG macros to
 # build without debugging information in the .EXE
-#------------------------------------------------
+#-------------------------------------------------------------------
 DEBUG = -v
+ASMDEBUG = /zi
 LINKDEBUG = /m /v
-#------------------------------------------------
-# NOTE: Temporary file space. Change to match
-#       your computer. A RAM disk works best.
-#------------------------------------------------
+#-------------------------------------------------------------------
+# NOTE: Temporary file space. Change to match your computer.
+#       A RAM disk works best.
+#-------------------------------------------------------------------
 HEADERS=$(TEMP)\tcdef.sym
 #------------------------------------------------
 COMPILE = bcc $(DEBUG) -D$(TESTING) -D$(FULL) -DBCPP -c -d -m$(MODEL) -H=$(HEADERS)
+ASM = tasm $(ASMDEBUG) /mx
 LINK= tlink $(LINKDEBUG) $(DRIVE)\lib\c0$(MODEL)
 LIBS= $(DRIVE)\lib\c$(MODEL)
 #------------------------------------------------
@@ -44,21 +46,15 @@ LIBS= $(DRIVE)\lib\c$(MODEL)
 .c.obj:
     $(COMPILE) {$*.c }
 
-memopad.exe : memopad.obj dialogs.obj menus.obj dflat.lib
-    $(LINK) memopad dialogs menus,memopad.exe,memopad,dflat $(LIBS)
+.asm.obj:
+    $(ASM) $<
 
-dflat.lib :   window.obj video.obj message.obj                         \
-              mouse.obj console.obj textbox.obj listbox.obj            \
-              normal.obj config.obj menu.obj menubar.obj popdown.obj   \
-              rect.obj applicat.obj keys.obj sysmenu.obj editbox.obj   \
-              dialbox.obj button.obj fileopen.obj msgbox.obj           \
-              helpbox.obj log.obj lists.obj statbar.obj decomp.obj     \
-              combobox.obj pictbox.obj calendar.obj barchart.obj       \
-              clipbord.obj search.obj dfalloc.obj checkbox.obj         \
-              text.obj radio.obj box.obj spinbutt.obj  watch.obj       \
-              slidebox.obj direct.obj editor.obj
-	del dflat.lib
-	tlib dflat @dflat.bld
+demo.exe : demo.obj dfast.lib
+    $(LINK) demo,demo.exe,demo,dfast $(LIBS)
+
+dfast.lib :   video.obj mouse.obj console.obj
+	del dfast.lib
+	tlib dfast @dfast.bld
 
 huffc.exe : huffc.obj htree.obj
     $(LINK) huffc htree,$*.exe,$*,$(LIBS)

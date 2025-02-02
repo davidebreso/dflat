@@ -9,19 +9,19 @@ void getvideo(RECT, void far *);
 void storevideo(RECT, void far *);
 extern unsigned video_mode;
 extern unsigned video_page;
-extern unsigned video_card;
+extern unsigned video_address;
 void wputch(WINDOW, int, int, int);
-unsigned int GetVideoChar(int, int);
+int GetVideoChar(int, int);
 void PutVideoChar(int, int, int);
+void PutVideoStr(int, int, char *, int);
 void get_videomode(void);
-void SetVideoMode(unsigned);
 void wputs(WINDOW, void *, int, int);
-void scroll_window(WINDOW, RECT, int);
 
 #define clr(fg,bg) ((fg)|((bg)<<4))
-#define vad(x,y) ((y)*(SCREENWIDTH*2)+(x)*2)
+#define vad(x,y) ((y)*160+(x)*2)
 #define ismono() (video_mode == 7)
 #define istext() (video_mode < 4)
 #define videochar(x,y) (GetVideoChar(x,y) & 255)
 
 #endif
+
