@@ -17,7 +17,7 @@ DATASEG
 _mouse_installed        dw      0       ; Set to 1 if mouse is available
 
 ;-----------------------------------------------------------------------
-; Define code segment, shared with console.asm
+; Define code segment, shared with console.asm and video.asm
 ;-----------------------------------------------------------------------
 SEGMENT CONSOLE_TEXT Word Public 'CODE'
 

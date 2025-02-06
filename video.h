@@ -10,12 +10,10 @@ void storevideo(RECT, void far *);
 extern unsigned video_mode;
 extern unsigned video_page;
 extern unsigned video_address;
-void wputch(WINDOW, int, int, int);
 int GetVideoChar(int, int);
 void PutVideoChar(int, int, int);
-void PutVideoStr(int, int, char *, int);
+void PutVideoStr(int, int, char *, int, int);
 void get_videomode(void);
-void wputs(WINDOW, void *, int, int);
 
 #define clr(fg,bg) ((fg)|((bg)<<4))
 #define vad(x,y) ((y)*160+(x)*2)

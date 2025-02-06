@@ -107,7 +107,12 @@ void test_video()
         PutVideoChar(x, 1, y);
     }
 
-    PutVideoStr(40, 13, "This string should appear ®\x01ftruncated¯ at (40, 13)", 40);
+    PutVideoStr(40, 13,
+        "This string should appear ®\x0f\x01truncated¯ at (40, 13)", 40, 0);
+    PutVideoStr(10, 14,
+        "®\x09\x00" "This should be ®\x09\x07padded.", 70, TRUE);
+    PutVideoStr(10, 15,
+        "®\x0e\x00" "And this ®\x0e\x02not!", 13, TRUE);
 
     cursor(0, 23);
     printf("Press Any Key to restore saved video buffer...");

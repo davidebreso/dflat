@@ -52,7 +52,7 @@ LIBS= $(DRIVE)\lib\c$(MODEL)
 demo.exe : demo.obj dfast.lib
     $(LINK) demo,demo.exe,demo,dfast $(LIBS)
 
-dfast.lib :   video.obj mouse.obj console.obj
+dfast.lib : video.obj mouse.obj console.obj config.obj
 	del dfast.lib
 	tlib dfast @dfast.bld
 

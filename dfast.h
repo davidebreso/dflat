@@ -9,10 +9,10 @@
 #include "system.h"
 #include "rect.h"
 #include "keys.h"
+#include "config.h"
 /*****
 #include "menu.h"
 #include "commands.h"
-#include "config.h"
 #include "dialbox.h"
 *****/
 
@@ -86,10 +86,8 @@ typedef struct window {
     int ReturnCode;        /* return code from a dialog box */
 } * WINDOW;
 
-/****
 #include "message.h"
 #include "classdef.h"
-****/
 #include "video.h"
 
 enum Condition     {
@@ -98,10 +96,8 @@ enum Condition     {
 /* ------- window methods ----------- */
 #define WindowHeight(w)      ((w)->ht)
 #define WindowWidth(w)       ((w)->wd)
-/*****
 #define BorderAdj(w,n)       (TestAttribute(w,HASBORDER)?n:0)
-*****/
-#define BorderAdj(w,n)       (0)
+// #define BorderAdj(w,n)       (0)
 #define ClientWidth(w)       (WindowWidth(w)-BorderAdj(w,2))
 #define ClientHeight(w)      (WindowHeight(w)-BorderAdj(w,2))
 #define WindowRect(w)        ((w)->rc)
@@ -197,7 +193,6 @@ extern WINDOW SystemMenuWnd;
 #define CHANGECOLOR  174    /* prefix to change colors      */
 #define RESETCOLOR   175    /* reset colors to default      */
 /* ---- standard window message processing prototypes ----- */
-/******
 int ApplicationProc(WINDOW, MESSAGE, PARAM, PARAM);
 int NormalProc(WINDOW, MESSAGE, PARAM, PARAM);
 int TextBoxProc(WINDOW, MESSAGE, PARAM, PARAM);
@@ -210,7 +205,6 @@ int DialogProc(WINDOW, MESSAGE, PARAM, PARAM);
 int SystemMenuProc(WINDOW, MESSAGE, PARAM, PARAM);
 int HelpBoxProc(WINDOW, MESSAGE, PARAM, PARAM);
 int MessageBoxProc(WINDOW, MESSAGE, PARAM, PARAM);
-******/
 /* ------------- normal box prototypes ------------- */
 int isWindow(WINDOW);
 WINDOW inWindow(int, int);
@@ -272,7 +266,7 @@ int RadioButtonSetting(DBOX *, enum commands);
 void PushRadioButton(DBOX *, enum commands);
 void PutItemText(WINDOW, enum commands, char *);
 void GetItemText(WINDOW, enum commands, char *, int);
-*****/
+******/
 /* ------------- help box prototypes ------------- */
 void HelpFunction(void);
 void LoadHelpFile(void);
