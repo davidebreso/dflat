@@ -1,7 +1,7 @@
 /* ---------------- classdef.c ---------------- */
 
 #include <stdio.h>
-#include "dfast.h"
+#include "dflat.h"
 
 /* Add class definitions to this table.
  * Add the class symbol to the CLASS list in dflat.h

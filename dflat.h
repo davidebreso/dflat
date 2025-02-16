@@ -56,6 +56,7 @@ typedef struct window {
     char *videosave;            /* video save buffer        */
     int condition;              /* Restored, Maximized,
                                            Minimized        */
+    int restored_attrib;        /* attributes when restored */
     void *extension;            /* -> menus, dialog box, etc*/
     struct window *PrevMouse;
     struct window *PrevKeyboard;
@@ -97,7 +98,6 @@ enum Condition     {
 #define WindowHeight(w)      ((w)->ht)
 #define WindowWidth(w)       ((w)->wd)
 #define BorderAdj(w,n)       (TestAttribute(w,HASBORDER)?n:0)
-// #define BorderAdj(w,n)       (0)
 #define ClientWidth(w)       (WindowWidth(w)-BorderAdj(w,2))
 #define ClientHeight(w)      (WindowHeight(w)-BorderAdj(w,2))
 #define WindowRect(w)        ((w)->rc)
@@ -129,14 +129,10 @@ WINDOW CreateWindow(CLASS,char *,int,int,int,int,void*,WINDOW,
 void AddTitle(WINDOW, char *);
 void RepaintBorder(WINDOW, RECT *);
 void ClearWindow(WINDOW, RECT *, int);
-void clipline(WINDOW, int, char *);
-void writeline(WINDOW, char *, int, int, int);
-void writefull(WINDOW, char *, int);
 void SetNextFocus(WINDOW,int);
 void PutWindowChar(WINDOW, int, int, int);
 void GetVideoBuffer(WINDOW);
 void RestoreVideoBuffer(WINDOW);
-int LineLength(char *);
 #define DisplayBorder(wnd) RepaintBorder(wnd, NULL)
 #define DefaultWndProc(wnd,msg,p1,p2)    \
     classdefs[FindClass(wnd->class)].wndproc(wnd,msg,p1,p2)

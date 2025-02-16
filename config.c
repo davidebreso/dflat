@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <conio.h>
-#include "dfast.h"
+#include "dflat.h"
 
 /* ----- default colors for color video system ----- */
 struct colors color = {

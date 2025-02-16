@@ -22,12 +22,8 @@ ENDS    RECT
 
 DATASEG
 
-        PUBLIC  _foreground, _background
-
-        EXTRN   _video_address:Word
-
-_foreground     dw      7
-_background     dw      0
+        EXTRN   _foreground:Word, _background:Word
+        EXTRN   _video_address:Word, _screenwidth:Word
 
 
 ;-----------------------------------------------------------------------
@@ -39,6 +35,7 @@ ASSUME  CS:CONSOLE_TEXT
 
         PUBLIC  _getvideo, _storevideo
         PUBLIC  _GetVideoChar, _PutVideoChar, _PutVideoStr
+        PUBLIC  _FillVideoRect, _ColorVideoRect
 
         EXTRN   _hide_mousecursor:Proc, _show_mousecursor:Proc
 
@@ -54,8 +51,9 @@ PROC    video_offset    NEAR
         push    dx          ; Save DX
         push    ax          ; Save x coordinate
 
-        mov     ax, 160     ; Figure the
-        mul     bx          ;  y offset
+        mov     ax, [_screenwidth]  ; Figure
+        shl     ax, 1               ;  the
+        mul     bx                  ;   y offset
         pop     bx          ; Restore x coordinate in BX
         shl     bx, 1       ; Multiply by 2
         add     ax, bx      ; Add to y offset
@@ -84,6 +82,8 @@ PROC    _getvideo
         mov     bx, [rc.top]            ;  the
         call    video_offset            ;   video offset
         mov     si, ax                  ; SI = video offset
+        mov     bx, [_screenwidth]      ; BX = lenght of screen row
+        shl     bx, 1                   ;  converted to bytes
         mov     ds, [_video_address]    ; DS = video segment
         mov     cx, [rc.bott]           ; Figure
         sub     cx, [rc.top]            ;  the number
@@ -99,7 +99,7 @@ PROC    _getvideo
         mov     cx, dx                  ; CX = number of columns
         rep     movsw                   ; Save one row of screen
         pop     si                      ; Restore video offset
-        add     si, 160                 ;  and point it to next row
+        add     si, bx                  ;  and point it to next row
         pop     cx                      ; Restore row counter
         loop    @@10                    ; Repeat for next row
 
@@ -139,6 +139,8 @@ PROC    _storevideo
         mov     dx, [rc.right]          ; Figure
         sub     dx, [rc.left]           ;  the number
         inc     dx                      ;   of columns
+        mov     bx, [_screenwidth]      ; BX = length of screen row
+        shl     bx, 1                   ;  converted to bytes
         cld                             ; Flag increment
         lds     si, [bf]                ; DS:SI = save buffer
 @@10:
@@ -147,7 +149,7 @@ PROC    _storevideo
         mov     cx, dx                  ; CX = number of columns
         rep     movsw                   ; Save one row of screen
         pop     di                      ; Restore video offset
-        add     di, 160                 ;  and point it to next row
+        add     di, bx                  ;  and point it to next row
         pop     cx                      ; Restore row counter
         loop    @@10                    ; Repeat for next row
 
@@ -191,8 +193,21 @@ PROC    _GetVideoChar
 ENDP    _GetVideoChar
 %NEWPAGE
 ;-----------------------------------------------------------------------
-; void PutVideoChar(int x, int y, int c)    Write charater and attribute
-;                                           to video memory
+; load_attribute    Compute attribute byte from foreground and
+;                   background colors. Return attribute in AH
+;-----------------------------------------------------------------------
+PROC    load_attribute  NEAR
+        push    cx                          ; Save cx register
+        mov     ah, [byte ptr _background]  ; Load background color
+        mov     cl, 4                       ;  shift it to
+        shl     ah, cl                      ;   high nibble
+        or      ah, [byte ptr _foreground]  ; add foreground color
+        pop     cx                          ; Restore cx
+        ret                                 ; Return to caller
+ENDP    load_attribute
+%NEWPAGE
+;-----------------------------------------------------------------------
+; void PutVideoChar(int x, int y, int c)    Write charater to the screen
 ;-----------------------------------------------------------------------
 PROC    _PutVideoChar
 
@@ -208,7 +223,8 @@ PROC    _PutVideoChar
         call    video_offset            ;   video offset
         mov     di, ax                  ; DI = video offset
         mov     es, [_video_address]    ; ES = video segment
-        mov     ax, [c]                 ; AX = charater to write
+        call    load_attribute          ; Load video attribute in AH
+        mov     al, [byte ptr c]        ; AL = charater to write
         stosw                           ; Write character and attribute
 
         call    _show_mousecursor       ; Show mouse cursor
@@ -218,13 +234,13 @@ PROC    _PutVideoChar
 ENDP    _PutVideoChar
 %NEWPAGE
 ;-----------------------------------------------------------------------
-; void PutVideoStr(int x, int y, char *string, int len, int pad)
+; int PutVideoStr(int x, int y, char *string, int len)
 ;         Write up to len characters of formatted string to video memory
-;         Fill the line with spaces if pad is not zero
+;         Returns the number of characters actually written to screen
 ;-----------------------------------------------------------------------
 PROC    _PutVideoStr
 
-        ARG     x:Word, y:Word, string: Dword, len:Word, pad:Word
+        ARG     x:Word, y:Word, string: Dword, len:Word
 
         push    bp                      ; Save old bp pointer
         mov     bp, sp                  ; Access parameters
@@ -238,10 +254,7 @@ PROC    _PutVideoStr
         call    video_offset            ;   video offset
         mov     di, ax                  ; DI = video offset
         mov     es, [_video_address]    ; ES = video segment
-        mov     ah, [byte ptr _background]   ; Load background color
-        mov     cl, 4                   ;  to
-        shl     ah, cl                  ;   high nibble of attribute
-        or      ah, [byte ptr _foreground]  ; add foreground color
+        call    load_attribute          ; Set default attribute in AH
         mov     bl, ah                  ; Save default attribute for later
         mov     cx, [len]               ; CX = character count
         jcxz    @@99                    ; Return if count = 0
@@ -250,7 +263,7 @@ PROC    _PutVideoStr
 @@10:
         lodsb                           ; Load next char of string in AL
         or      al, al                  ; If char is NULL
-        jz      @@40                    ;  then jump to padding
+        jz      @@99                    ;  then go to return
         cmp     al, CHANGECOLOR         ; Is change color prefix?
         je      @@20                    ;  then jump
         cmp     al, RESETCOLOR          ; Is reset color?
@@ -270,19 +283,120 @@ PROC    _PutVideoStr
         mov     ah, bl                  ; Reset color attribute
         jmp     @@10                    ;  and continue
 
-@@40:
-        cmp     [pad], 0                ; Do we have to pad?
-        jz      @@99                    ;  jump if not
-        mov     al, ' '                 ; Use spaces to pad
-        rep     stosw                   ; Pad the line
 @@99:
         pop     ds                      ; Restore data segment register
+        sub     [len], cx               ; Return value is max len
+                                        ;  minus leftover characters
         call    _show_mousecursor       ; Show mouse cursor
+        mov     ax, [len]               ; Set return value
         pop     si                      ; Restore SI register
         pop     di                      ; Restore DI register
         pop     bp                      ; Restore bp pointer
         ret                             ; Return to caller
 ENDP    _PutVideoStr
+%NEWPAGE
+;-----------------------------------------------------------------------
+; void FillVideoRect(RECT rc, int c)
+;         Fill rectangle of video rc with character
+;-----------------------------------------------------------------------
+PROC    _FillVideoRect
+
+        ARG     rc:Rect, c:Word
+
+        push    bp                      ; Save old bp pointer
+        mov     bp, sp                  ; Access parameters
+        push    di                      ; Save DI register
+        push    si                      ; Save SI register
+        call    _hide_mousecursor       ; Hide mouse cursor
+
+        mov     ax, [rc.left]           ; Figure
+        mov     bx, [rc.top]            ;  the
+        call    video_offset            ;   video offset
+        mov     di, ax                  ; DI = video offset
+        mov     es, [_video_address]    ; ES = video segment
+        mov     cx, [rc.bott]           ; Figure
+        sub     cx, [rc.top]            ;  the number
+        inc     cx                      ;   of rows
+        mov     dx, [rc.right]          ; Figure
+        sub     dx, [rc.left]           ;  the number
+        inc     dx                      ;   of columns
+        mov     bx, [_screenwidth]      ; BX = lenght of screen row
+        shl     bx, 1                   ;  converted to bytes
+        call    load_attribute          ; Set AH to attribyte byte
+        mov     al, [byte ptr c]        ; Load fill character in AL
+
+        cld                             ; Flag increment
+@@10:
+        push    cx                      ; Save the number of rows
+        push    di                      ; Save the video offset
+        mov     cx, dx                  ; CX = number of columns
+        rep     stosw                   ; Write one row of screen
+        pop     di                      ; Restore video offset
+        add     di, bx                  ;  and point it to next row
+        pop     cx                      ; Restore row counter
+        loop    @@10                    ; Repeat for next row
+
+@@99:
+        call    _show_mousecursor       ; Show mouse cursor
+        mov     ax, [len]               ; Set return value
+        pop     si                      ; Restore SI register
+        pop     di                      ; Restore DI register
+        pop     bp                      ; Restore bp pointer
+        ret                             ; Return to caller
+ENDP    _FillVideoRect
+%NEWPAGE
+;-----------------------------------------------------------------------
+; void ColorVideoRect(RECT rc, int attr)
+;         Color rectangle of video rc with attribute
+;-----------------------------------------------------------------------
+PROC    _ColorVideoRect
+
+        ARG     rc:Rect, attr:Word
+
+        push    bp                      ; Save old bp pointer
+        mov     bp, sp                  ; Access parameters
+        push    di                      ; Save DI register
+        push    si                      ; Save SI register
+        call    _hide_mousecursor       ; Hide mouse cursor
+
+        mov     ax, [rc.left]           ; Figure
+        mov     bx, [rc.top]            ;  the
+        call    video_offset            ;   video offset
+        mov     di, ax                  ; DI = video offset
+        mov     es, [_video_address]    ; ES = video segment
+        mov     cx, [rc.bott]           ; Figure
+        sub     cx, [rc.top]            ;  the number
+        inc     cx                      ;   of rows
+        mov     dx, [rc.right]          ; Figure
+        sub     dx, [rc.left]           ;  the number
+        inc     dx                      ;   of columns
+        mov     bx, [_screenwidth]      ; BX = lenght of screen row
+        shl     bx, 1                   ;  converted to bytes
+        mov     al, [byte ptr attr]     ; Load attribute
+
+        cld                             ; Flag increment
+@@10:
+        push    cx                      ; Save the number of rows
+        push    di                      ; Save the video offset
+        mov     cx, dx                  ; CX = number of columns
+@@20:
+        inc     di                      ; Offset to attribute byte
+        stosb                           ; Write attribute byte
+        loop    @@20                    ; Repeat for one row
+        pop     di                      ; Restore video offset
+        add     di, bx                  ;  and point it to next row
+        pop     cx                      ; Restore row counter
+        loop    @@10                    ; Repeat for next row
+
+@@99:
+        call    _show_mousecursor       ; Show mouse cursor
+        mov     ax, [len]               ; Set return value
+        pop     si                      ; Restore SI register
+        pop     di                      ; Restore DI register
+        pop     bp                      ; Restore bp pointer
+        ret                             ; Return to caller
+ENDP    _ColorVideoRect
+
 
 ENDS    CONSOLE_TEXT            ; End of Code Segment
 

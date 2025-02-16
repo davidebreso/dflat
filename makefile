@@ -1,8 +1,8 @@
 #-------------------------------------------------------------------
-#        D - F A S T   M A K E F I L E  -  Borland C++ 2.0
+#        D - F L A T   M A K E F I L E  -  Borland C++ 2.0
 #-------------------------------------------------------------------
 
-all : demo.exe
+all : demo.exe windemo.exe
 
 #-------------------------------------------------------------------
 # NOTE: Set DRIVE to match where you installed your compiler
@@ -49,12 +49,16 @@ LIBS= $(DRIVE)\lib\c$(MODEL)
 .asm.obj:
     $(ASM) $<
 
-demo.exe : demo.obj dfast.lib
-    $(LINK) demo,demo.exe,demo,dfast $(LIBS)
+demo.exe : demo.obj dflat.lib
+    $(LINK) demo,demo.exe,demo,dflat $(LIBS)
 
-dfast.lib : video.obj mouse.obj console.obj config.obj
-	del dfast.lib
-	tlib dfast @dfast.bld
+windemo.exe : windemo.obj dflat.lib
+    $(LINK) windemo,windemo.exe,windemo,dflat $(LIBS)
+
+dflat.lib : video.obj mouse.obj console.obj config.obj \
+            classdef.obj window.obj stubs.obj
+	del dflat.lib
+	tlib dflat @dflat.bld
 
 huffc.exe : huffc.obj htree.obj
     $(LINK) huffc htree,$*.exe,$*,$(LIBS)

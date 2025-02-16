@@ -13,8 +13,8 @@
 #define COUNT (1193280L / FREQUENCY)
 #define ZEROFLAG 0x40
 #define MAXSAVES 50
-#define SCREENWIDTH  80
-#define SCREENHEIGHT 25
+extern int screenwidth;
+extern int screenheight;
 /* ----- keyboard BIOS (0x16) functions -------- */
 #define READKB 0
 #define KBSTAT 1

@@ -2,8 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
-#include "dfast.h"
+#include "dflat.h"
 
 static void test_console(void);
 static void test_mouse(void);
@@ -85,12 +86,14 @@ void test_mouse(void)
     getkey();
 }
 
+static char line[160];
+
 void test_video()
 {
     int x, y, c, *buffer;
     RECT rc;
 
-    buffer = malloc(SCREENWIDTH * SCREENHEIGHT * 2);
+    buffer = malloc(screenwidth * screenheight * 2);
     if (buffer == NULL) {
         printf("Unable to store video buffer, aborting!\n");
         return;
@@ -99,24 +102,37 @@ void test_video()
     rc.lf = 0; rc.tp = 0; rc.rt = 79; rc.bt = 24;
     getvideo(rc, buffer);
 
-    c = 0x0740;
-    for (x = 0; x < SCREENWIDTH; x++) {
+    c = 0x40;
+    for (x = 0; x < screenwidth; x++) {
         PutVideoChar(x, 0, c);
-        c += 0x0101;
+        c++;
         y = GetVideoChar(x, 0);
         PutVideoChar(x, 1, y);
     }
 
-    PutVideoStr(40, 13,
-        "This string should appear ®\x0f\x01truncated¯ at (40, 13)", 40, 0);
-    PutVideoStr(10, 14,
-        "®\x09\x00" "This should be ®\x09\x07padded.", 70, TRUE);
-    PutVideoStr(10, 15,
-        "®\x0e\x00" "And this ®\x0e\x02not!", 13, TRUE);
+    x = PutVideoStr(40, 13,
+        "This string should appear ®\x0f\x01truncated¯ at (40, 13)", 40);
+    sprintf(line, "... to show only %d characters.", x);
+    PutVideoStr(40, 14, line, 40);
+    x = PutVideoStr(40, 15,
+        "®\x0e\x00" "This is ®\x0e\x02not¯ truncated!", 40);
+    sprintf(line, "... since it is only %d characters long.", x);
+    PutVideoStr(40, 16, line, 40);
+    cursor(0, 23);
+    printf("Press Any Key to continue...");
+
+    rc.lf = 5; rc.tp = 5; rc.rt = 24; rc.bt = 14;
+    foreground = YELLOW;
+    background = BROWN;
+    FillVideoRect(rc, '*');
+    rc.lf = 10; rc.tp = 10; rc.rt = 34; rc.bt = 21;
+    ColorVideoRect(rc, 0x078);
 
     cursor(0, 23);
     printf("Press Any Key to restore saved video buffer...");
     getkey();
+
+    rc.lf = 0; rc.tp = 0; rc.rt = 79; rc.bt = 24;
     storevideo(rc, buffer);
     printf("\nPress Any Key to continue...");
     getkey();

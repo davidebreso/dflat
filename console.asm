@@ -16,22 +16,21 @@ MAXSAVES        EQU     50              ; Max number of saved cursors
 
 ;------ Tell assembler where the DailyTimer word is located
 
-BIOSDataSeg     EQU     0040h           ; Segment address of BDA
-DailyTimerOfs   EQU     006ch           ; Offset of timer counter
-
-SEGMENT BIOSData at BIOSDataSeg
-        ORG     DailyTimerOfs
-LABEL   DailyTimer      Word
-ENDS
+BIOSData        EQU     0040h           ; Segment address of BDA
+DailyTimer      EQU     006ch           ; Offset of timer counter
+ScreenRows      EQU     0084h           ; Offset of screen rows
 
 
 DATASEG
 
         PUBLIC  _video_mode, _video_page, _video_address
+        PUBLIC  _screenwidth, _screenheight
 
 csave           dw      0
 cursorpos       dw      MAXSAVES    dup(?)
 cursorshape     dw      MAXSAVES    dup(?)
+_screenwidth    dw      80
+_screenheight   dw      25
 _video_page     dw      0
 _video_mode     dw      ?
 _video_address  dw      ?
@@ -44,7 +43,7 @@ SEGMENT CONSOLE_TEXT Word Public 'CODE'
 
 ASSUME  CS:CONSOLE_TEXT
 
-        PUBLIC  _get_videomode, _getkey, _getshift, _beep
+        PUBLIC  _get_videomode, _keyhit, _getkey, _getshift, _beep
         PUBLIC  _cursor, _curr_cursor, _savecursor, _restorecursor
         PUBLIC  _hidecursor, _unhidecursor, _set_cursor_type
 
@@ -57,20 +56,44 @@ PROC    _get_videomode
 
         mov     ah, 0fh             ; Select GET VIDEOMODE function
         int     VIDEO               ;  and call Video BIOS
+        mov     [byte ptr _screenwidth], ah     ; Save screen width
         and     ax, 07fh            ; Mask out video mode
         mov     [_video_mode], ax   ;  and save it
         and     bx, 0ff00h          ; Mask out video page
         mov     [_video_page], bx   ;  and save it
+        add     bx, 0b000h          ; Set monochrome video address
         cmp     ax, 7               ; Monochrome mode?
-        jne     @@10                ;  no, jump
-        mov     bx, 0b000h          ; Set monochrome video address
-        jmp     @@99                ;  and jump to save address
+        je      @@10                ;  yes, jump to save video_address
+        add     bx, 0800h           ; Correct for color video address
 @@10:
-        add     bx, 0b800h          ; video_address is b800 + video_page
-@@99:
         mov     [_video_address], bx    ; Save video_address
+        mov     ah, 12h                 ; Check
+        mov     bl, 10h                 ;  for
+        int     VIDEO                   ;   EGA/VGA
+        cmp     bl, 10h                 ; Jump
+        je      @@99                    ;  if not EGA/VGA
+        mov     ax, BiosData            ; Set ES
+        mov     es, ax                  ;  to Bios Data Area
+        mov     al, [es:ScreenRows]     ; Get rows on screen minus 1
+        inc     al                      ; Figure rows on screen
+        mov     [byte ptr _screenheight], al  ; and save them
+@@99:
         ret                         ; Return to caller
 ENDP    _get_videomode
+%NEWPAGE
+;-----------------------------------------------------------------------
+; int keyhit(void)          Test for keystroke
+;-----------------------------------------------------------------------
+PROC    _keyhit
+
+        mov     ah, 1               ; Select CHECK KEYSTROKE function
+        int     KEYBRD              ;  and call keyboard BIOS
+        mov     ax, 0               ; Prepare to return false
+        jnz     @@99                ;  return FALSE if zero flag is clear
+        inc     ax                  ;  else return TRUE
+@@99:
+        ret                         ; Return to caller
+ENDP    _keyhit
 %NEWPAGE
 ;-----------------------------------------------------------------------
 ; int getkey(void)          Read a keystroke
@@ -105,7 +128,7 @@ ENDP    _getshift
 PROC    timer_wait      NEAR
 
         push    ds              ; Save data segment register
-        mov     ax, BIOSDataSeg ; Address BIOSDataSegment
+        mov     ax, BIOSData    ; Address BIOSDataSegment
         mov     ds, ax          ;  with ds
 
 ASSUME  DS:BIOSData
