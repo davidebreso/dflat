@@ -12,7 +12,7 @@ extern unsigned video_page;
 extern unsigned video_address;
 int GetVideoChar(int, int);
 void PutVideoChar(int, int, int);
-int PutVideoStr(int, int, char *, int);
+int PutVideoStr(int, int, char *, int, int);
 void FillVideoRect(RECT, int);
 void ColorVideoRect(RECT, int);
 void get_videomode(void);

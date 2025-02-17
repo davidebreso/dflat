@@ -129,6 +129,7 @@ WINDOW CreateWindow(CLASS,char *,int,int,int,int,void*,WINDOW,
 void AddTitle(WINDOW, char *);
 void RepaintBorder(WINDOW, RECT *);
 void ClearWindow(WINDOW, RECT *, int);
+void writeline(WINDOW, char *, int, int, int);
 void SetNextFocus(WINDOW,int);
 void PutWindowChar(WINDOW, int, int, int);
 void GetVideoBuffer(WINDOW);
@@ -269,5 +270,4 @@ void LoadHelpFile(void);
 #define swap(a,b){int x=a;a=b;b=x;}
 
 #endif
-
 

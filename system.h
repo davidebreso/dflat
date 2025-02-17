@@ -2,29 +2,37 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 /* ----- interrupt vectors ----- */
+/*****
 #define TIMER  8
 #define VIDEO  0x10
 #define KEYBRD 0x16
 #define DOS    0x21
 #define CRIT   0x24
 #define MOUSE  0x33
+*****/
 /* ------- platform-dependent values ------ */
+/*****
 #define FREQUENCY 100
 #define COUNT (1193280L / FREQUENCY)
 #define ZEROFLAG 0x40
 #define MAXSAVES 50
+****/
 extern int screenwidth;
 extern int screenheight;
 /* ----- keyboard BIOS (0x16) functions -------- */
+/*****
 #define READKB 0
 #define KBSTAT 1
+*****/
 /* ------- video BIOS (0x10) functions --------- */
+/*****
 #define SETCURSORTYPE 1
 #define SETCURSOR     2
 #define READCURSOR    3
 #define READATTRCHAR  8
 #define WRITEATTRCHAR 9
 #define HIDECURSOR 0x20
+****/
 /* ------- the interrupt function registers -------- */
 typedef struct {
     int bp,di,si,ds,es,dx,cx,bx,ax,ip,cs,fl;

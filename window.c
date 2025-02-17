@@ -11,8 +11,9 @@ WINDOW inFocus = NULLWND;
 int foreground = LIGHTGRAY;   /* current video colors */
 int background = BLACK;
 
-static void InsertTitle(WINDOW, char *);
-static void DisplayTitle(WINDOW, RECT);
+static void near InsertTitle(WINDOW, char *);
+static void near DisplayTitle(WINDOW, RECT);
+static RECT near AdjustRect(WINDOW, RECT);
 
 /* --------- create a window ------------ */
 WINDOW CreateWindow(
@@ -22,8 +23,8 @@ WINDOW CreateWindow(
     int height, int width,    /* dimensions                 */
     void *extension,          /* pointer to additional data */
     WINDOW parent,            /* parent of this window      */
-    int (*wndproc)(struct window *,enum messages,PARAM,PARAM),int attrib)
-                              /* window attribute           */
+    int (*wndproc)(struct window *,enum messages,PARAM,PARAM),
+    int attrib)               /* window attribute           */
 {
     WINDOW wnd = malloc(sizeof(struct window));
     if (wnd != NULLWND)    {
@@ -89,7 +90,7 @@ void AddTitle(WINDOW wnd, char *ttl)
 }
 
 /* ----- insert a title into a window ---------- */
-static void InsertTitle(WINDOW wnd, char *ttl)
+static void near InsertTitle(WINDOW wnd, char *ttl)
 {
     if ((wnd->title = malloc(strlen(ttl)+1)) != NULL)
         strcpy(wnd->title, ttl);
@@ -123,8 +124,26 @@ void PutWindowChar(WINDOW wnd, int x, int y, int c)
 
 static char line[161];
 
+/* ------ write a line to video window client area ------ */
+void writeline(WINDOW wnd, char *str, int x, int y, int pad)
+{
+    RECT rc;
+    int len;
+
+    RectLeft(rc) = GetClientLeft(wnd) + x;
+    RectTop(rc) = RectBottom(rc) = GetClientTop(wnd) + y;
+    RectRight(rc) = GetClientRight(wnd);
+
+    rc = AdjustRect(wnd, rc);
+
+    if (RectLeft(rc) > RectRight(rc) || RectTop(rc) > RectBottom(rc))
+        return;
+
+    PutVideoStr(RectLeft(rc), RectTop(rc), str, RectWidth(rc), pad);
+}
+
 /* -------- display a window's title --------- */
-static void DisplayTitle(WINDOW wnd, RECT rc)
+static void near DisplayTitle(WINDOW wnd, RECT rc)
 {
     int tlen = min(strlen(wnd->title), WindowWidth(wnd)-2);
     int tend = WindowWidth(wnd)-4;
@@ -166,7 +185,7 @@ static void DisplayTitle(WINDOW wnd, RECT rc)
         RectRight(rc) = min(RectRight(rc), GetRight(wnd) - 1);
         PutVideoStr(RectLeft(rc), GetTop(wnd),
                     line + (RectLeft(rc) - GetLeft(wnd) - 1),
-                    RectWidth(rc));
+                    RectWidth(rc), FALSE);
     }
 }
 

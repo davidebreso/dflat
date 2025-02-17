@@ -22,4 +22,3 @@ RECT ClientRect(void *);
 RECT SetRect(int,int,int,int);
 #endif
 
-

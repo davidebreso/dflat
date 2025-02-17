@@ -111,13 +111,16 @@ void test_video()
     }
 
     x = PutVideoStr(40, 13,
-        "This string should appear ®\x0f\x01truncated¯ at (40, 13)", 40);
+        "This string should appear ®\x0f\x01truncated¯ at (40, 13)",
+        40, FALSE);
     sprintf(line, "... to show only %d characters.", x);
-    PutVideoStr(40, 14, line, 40);
+    PutVideoStr(40, 14, line, 40, FALSE);
     x = PutVideoStr(40, 15,
-        "®\x0e\x00" "This is ®\x0e\x02not¯ truncated!", 40);
+        "®\x0e\x00" "This is ®\x0e\x02not¯ truncated!", 40, FALSE);
     sprintf(line, "... since it is only %d characters long.", x);
-    PutVideoStr(40, 16, line, 40);
+    PutVideoStr(40, 16, line, 40, FALSE);
+    PutVideoStr(40, 17,
+        "This should be ®\x0e\x02padded!", 40, TRUE);
     cursor(0, 23);
     printf("Press Any Key to continue...");
 

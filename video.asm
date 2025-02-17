@@ -234,13 +234,15 @@ PROC    _PutVideoChar
 ENDP    _PutVideoChar
 %NEWPAGE
 ;-----------------------------------------------------------------------
-; int PutVideoStr(int x, int y, char *string, int len)
-;         Write up to len characters of formatted string to video memory
-;         Returns the number of characters actually written to screen
+; int PutVideoStr(int x, int y, char *string, int len, int pad)
+;       Write up to len characters of formatted string to video memory
+;       Pad to len if padding flag is TRUE
+;       Returns:
+;           AX = number of characters actually written to screen
 ;-----------------------------------------------------------------------
 PROC    _PutVideoStr
 
-        ARG     x:Word, y:Word, string: Dword, len:Word
+        ARG     x:Word, y:Word, string: Dword, len:Word, pad:Word
 
         push    bp                      ; Save old bp pointer
         mov     bp, sp                  ; Access parameters
@@ -263,7 +265,7 @@ PROC    _PutVideoStr
 @@10:
         lodsb                           ; Load next char of string in AL
         or      al, al                  ; If char is NULL
-        jz      @@99                    ;  then go to return
+        jz      @@40                    ;  then go to padding
         cmp     al, CHANGECOLOR         ; Is change color prefix?
         je      @@20                    ;  then jump
         cmp     al, RESETCOLOR          ; Is reset color?
@@ -273,7 +275,7 @@ PROC    _PutVideoStr
         jmp     @@99                    ; Done, jump to return
 @@20:
         xchg    cx, dx                  ; Save CX in DX
-        lodsw                           ; Load color attributes in AX
+        lodsw                           ; Load color attributes in AH
         mov     cl, 4                   ; Shift background
         shl     ah, cl                  ;  to high nibble
         or      ah, al                  ;   and add foreground color
@@ -282,13 +284,17 @@ PROC    _PutVideoStr
 @@30:
         mov     ah, bl                  ; Reset color attribute
         jmp     @@10                    ;  and continue
-
+@@40:
+        cmp     [pad], 0                ; Jump if
+        je      @@99                    ;  no padding required
+        mov     al, ' '                 ; Pad with spaces
+        rep     stosw                   ; Write padding
 @@99:
         pop     ds                      ; Restore data segment register
         sub     [len], cx               ; Return value is max len
                                         ;  minus leftover characters
         call    _show_mousecursor       ; Show mouse cursor
-        mov     ax, [len]               ; Set return value
+        mov     ax, [len]               ; Set return values
         pop     si                      ; Restore SI register
         pop     di                      ; Restore DI register
         pop     bp                      ; Restore bp pointer

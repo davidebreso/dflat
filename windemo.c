@@ -39,6 +39,14 @@ void test_window(void)
     ClearWindow(wnd, NULL, ' ');
     getkey();
 
+    writeline(wnd, "This string should appear ®\x0f\x01truncated¯ at (20, 1)",
+        20, 1, FALSE);
+    writeline(wnd, "®\x0e\x00" "This is ®\x0e\x02not¯ truncated!",
+        20, 2, FALSE);
+    writeline(wnd, "This should be ®\x0e\x02padded!",
+        20, 3, TRUE);
+    getkey();
+
     RestoreVideoBuffer(wnd);
     getkey();
 }
